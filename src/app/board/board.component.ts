@@ -8,18 +8,24 @@ import {SpriteMovement} from "../shared/classes/sprite.movement"
 
 export class BoardComponent implements AfterViewInit {
 
-    heroMovement = new SpriteMovement();
+    heroMovement: SpriteMovement;
     gameBoard: createjs.Stage;
     player: actor;
-
-    npcArray = [];
+    npcArray: Array<actor>;
+    obstacleArray: Array<actor>;
 
     ngAfterViewInit() {
+        this.heroMovement = new SpriteMovement();
         this.player = new actor();
         this.gameBoard = new createjs.Stage("gameBoard");
         let background = new createjs.Shape();
         background.graphics.beginFill("green").drawRect(0,0,768,432);
         this.gameBoard.addChild(background);
+
+        this.obstacleArray = buildObstacleArray();
+        this.obstacleArray.forEach((obstacle) => {
+            this.gameBoard.addChild(obstacle);
+        });
 
         this.player.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
         this.player.x = 10;
@@ -60,4 +66,21 @@ export class BoardComponent implements AfterViewInit {
 class actor extends createjs.Shape {
     health: number;
     attackPower: number;
+}
+
+function buildObstacleArray() : Array<actor> {
+    let xPos : number = 384;
+    let yPos : number = 208;
+
+    let obstacleArray = Array<actor>();
+    //needs to build objects, assign them a sprite, put them into the array
+    //100 to start
+    for (let i = 0; i < 5; i++) {
+        let obstacle = new actor();
+        obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
+        xPos += 16;
+        yPos += 16;
+        obstacleArray.push(obstacle);
+    }
+    return obstacleArray;
 }
