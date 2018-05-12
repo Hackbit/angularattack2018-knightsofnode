@@ -23,6 +23,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	player: actor;
 	npcArray: Array<actor> = [];
 	obstacleArray: Array<actor> = [];
+	knightSprite: createjs.SpriteSheet = null;
 
 	ngAfterViewInit() {
 		this.player = new actor();
@@ -84,6 +85,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 					break;
 			}
 		});
+
+		let queue = new createjs.LoadQueue();
+		queue.installPlugin(createjs.SpriteSheet);
+		queue.loadManifest([
+			{id: "knightSprite", type: "spritesheet", src: "/sprites/knight.json"}
+		]);
+		queue.on("complete", () => console.log("good knight"));
 	}
 
 	down(): void {
