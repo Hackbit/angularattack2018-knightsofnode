@@ -9,12 +9,18 @@ import {SpriteMovement} from "../shared/classes/sprite.movement"
 export class BoardComponent implements AfterViewInit {
 
     heroMovement = new SpriteMovement();
-    gameBoard = new createjs.Stage("gameBoard");
-    player = new actor();
+    gameBoard: createjs.Stage;
+    player: actor;
 
     npcArray = [];
 
     ngAfterViewInit() {
+        this.player = new actor();
+        this.gameBoard = new createjs.Stage("gameBoard");
+        let background = new createjs.Shape();
+        background.graphics.beginFill("green").drawRect(0,0,768,432);
+        this.gameBoard.addChild(background);
+
         this.player.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
         this.player.x = 10;
         this.player.y = 10;
@@ -22,7 +28,7 @@ export class BoardComponent implements AfterViewInit {
 
         this.gameBoard.update();
 
-
+        //console.log(this.gameBoard);
 
         createjs.Ticker.setFPS(60);
 
