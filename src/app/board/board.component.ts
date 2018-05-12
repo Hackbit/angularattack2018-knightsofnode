@@ -1,8 +1,9 @@
-import { Component, HostListener, AfterViewInit } from "@angular/core";
+import { Component, HostListener, AfterViewInit, OnInit } from "@angular/core";
 import * as createjs from 'createjs-module';
 import {WindowSizeService} from "../shared/services/window.size.service";
 import {PlayerControlService} from "../shared/services/player.control.service";
 import { LEFT, RIGHT, UP, DOWN } from "../shared/services/player.control.service";
+import {HeartbeatService} from "../shared/services/heartbeat.service";
 
 const BOARD_MAX_X : number = 768;
 const BOARD_MAX_Y : number = 432;
@@ -16,7 +17,7 @@ const PLAYER_START_Y: number = 0;
     template: require("./board.component.html")
 })
 
-export class BoardComponent implements AfterViewInit {
+export class BoardComponent implements AfterViewInit, OnInit {
 
     gameBoard: createjs.Stage;
     player: actor;
@@ -49,14 +50,19 @@ export class BoardComponent implements AfterViewInit {
         this.gameBoard.addChild(this.player);
 
         this.gameBoard.update();
-        console.log(this.gameBoard);
+        //console.log(this.gameBoard);
 
-        createjs.Ticker.setFPS(60);
-
+        //createjs.Ticker.setFPS(60);
+        
     }
 
-	constructor(protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
-		this.playerControlService.playerAction.subscribe((direction: string) => {
+    ngOnInit(): void {
+        this.heartbeatService.heartbeat.subscribe(() => 
+                this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
+    }
+
+	constructor(protected heartbeatService: HeartbeatService,protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
+        this.playerControlService.playerAction.subscribe((direction: string) => {
 			switch(direction) {
 				case DOWN:
 					this.down();
@@ -74,9 +80,17 @@ export class BoardComponent implements AfterViewInit {
 		});
 	}
 
+    beat(): void 
+    {
+	}
+
 	down(): void {
+<<<<<<< Updated upstream
         // TODO - This is for NPC, replace with player control.
         if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16))
+=======
+        if(!BottomBoundaryCheck(this.player))
+>>>>>>> Stashed changes
         {
             this.player.y += 16;
             this.player.currentY += 16;
@@ -111,28 +125,31 @@ export class BoardComponent implements AfterViewInit {
         }
 	}
 
-    HandleNpcMovement()
+    HandleNpcMovement(npc: actor)
     {   
-        var direction = GetNpcDirection(this.player.previousDirection);
+        var direction = GetNpcDirection(npc.previousDirection);
 
         if(direction === 0 )
         {
-            this.player.y += 16;
-            this.player.previousDirection = direction;
+            npc.y += 16;
+            npc.previousDirection = direction;
         }
         if(direction === 1 )
         {
-            this.player.x += 16;
+            npc.x += 16;
+            npc.previousDirection = direction;
         }
         if(direction === 2 )
         {
-            this.player.y -= 16;
+            npc.y -= 16;
+            npc.previousDirection = direction;
         }
         if(direction === 3 )
         {
-            this.player.x -= 16;
+            npc.x -= 16;
+            npc.previousDirection = direction;
         }           
-    
+        
         this.gameBoard.update();
     }
     
