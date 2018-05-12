@@ -34,8 +34,6 @@ export class BoardComponent implements AfterViewInit {
 
         this.gameBoard.update();
 
-        //console.log(this.gameBoard);
-
         createjs.Ticker.setFPS(60);
 
         document.addEventListener('keypress', handlePress);
@@ -69,18 +67,19 @@ class actor extends createjs.Shape {
 }
 
 function buildObstacleArray() : Array<actor> {
-    let xPos : number = 384;
-    let yPos : number = 208;
+    let xPos : number;
+    let yPos : number;
 
     let obstacleArray = Array<actor>();
     //needs to build objects, assign them a sprite, put them into the array
     //100 to start
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 100; i++) {
         let obstacle = new actor();
+        xPos = Math.floor(Math.random() * 10) * 16;
+        yPos = Math.floor(Math.random() * 10) * 16;
         obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
-        xPos += 16;
-        yPos += 16;
         obstacleArray.push(obstacle);
+        console.log(obstacle);
     }
     return obstacleArray;
 }
