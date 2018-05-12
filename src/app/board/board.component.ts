@@ -240,7 +240,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
                     value = false;
                 }
             });
-        } 
+        }
+        if (this.player.currentX === xPos && this.player.currentY === yPos) {
+            value = false;
+        }
         return value;
     }
 }
