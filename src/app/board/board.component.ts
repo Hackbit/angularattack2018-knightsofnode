@@ -169,6 +169,8 @@ export class BoardComponent implements AfterViewInit {
                 default:
                     console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
             }
+            npc.currentX = xPos;
+            npc.currentY = yPos;
             npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
             this.npcArray.push(npc);
         }
@@ -184,28 +186,28 @@ export class BoardComponent implements AfterViewInit {
             let obstacle = new actor();
             xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
             yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+            obstacle.currentX = xPos;
+            obstacle.currentY = yPos;
             obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
             this.obstacleArray.push(obstacle);
         }
     }
 
     isMoveLegal(xPos, yPos) : boolean {
-        let isLegal : boolean = true;
         this.obstacleArray.forEach((obstacle) => {
-            if (obstacle.x === xPos && obstacle.y === yPos) {
-                isLegal = false
+            if (obstacle.currentX === xPos && obstacle.currentY === yPos) {
+                return false;
             }
         });
 
         if (this.npcArray && this.npcArray.length > 0) {
             this.npcArray.forEach((npc) => {
-                if (npc.x === xPos && npc.y === yPos) {
-                    isLegal = false
+                if (npc.currentX === xPos && npc.currentY === yPos) {
+                    return false;
                 }
             });
         } 
-
-        return isLegal;
+        return true;
     }
 }
 
@@ -213,6 +215,8 @@ class actor extends createjs.Shape {
     health: number;
     attackPower: number;
     previousDirection: number;
+    currentX: number;
+    currentY: number;
 }
 
 <<<<<<< Updated upstream
