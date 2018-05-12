@@ -9,18 +9,18 @@ import {SpriteMovement} from "../shared/classes/sprite.movement"
 export class BoardComponent implements AfterViewInit {
 
     heroMovement = new SpriteMovement();
+    gameBoard = new createjs.Stage("gameBoard");
+    player = new actor();
 
     npcArray = [];
 
     ngAfterViewInit() {
-        var stage = new createjs.Stage("gameBoard");
-        var circle = new character();
-        circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-        circle.x = 10;
-        circle.y = 10;
-        stage.addChild(circle);
+        this.player.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+        this.player.x = 10;
+        this.player.y = 10;
+        this.gameBoard.addChild(this.player);
 
-        stage.update();
+        this.gameBoard.update();
 
 
 
@@ -32,26 +32,26 @@ export class BoardComponent implements AfterViewInit {
 
             if(event.keyCode === 100)
             {
-                circle.x = this.heroMovement.moveRight(circle.x);
+                this.player.x = this.heroMovement.moveRight(this.player.x);
             }
             if(event.keyCode === 97)
             {
-                circle.x = this.heroMovement.moveLeft(circle.x);
+                this.player.x = this.heroMovement.moveLeft(this.player.x);
             }
             if(event.keyCode === 115)
             {
-                circle.y = this.heroMovement.moveUp(circle.y);
+                this.player.y = this.heroMovement.moveUp(this.player.y);
             }
             if(event.keyCode === 119)
             {
-                circle.y = this.heroMovement.moveDown(circle.y);
+                this.player.y = this.heroMovement.moveDown(this.player.y);
             }
-            stage.update();
+            this.gameBoard.update();
         }
     }
 }
 
-class character extends createjs.Shape {
+class actor extends createjs.Shape {
     health: number;
     attackPower: number;
 }
