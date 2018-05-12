@@ -85,12 +85,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	down(): void {
-<<<<<<< Updated upstream
         // TODO - This is for NPC, replace with player control.
         if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16))
-=======
-        if(!BottomBoundaryCheck(this.player))
->>>>>>> Stashed changes
+
         {
             this.player.y += 16;
             this.player.currentY += 16;
@@ -332,7 +329,7 @@ function GetNpcDirection(previousDir : number) : number
 
 function LeftBoundaryCheck(_actor: actor): boolean
 {
-    var x = _actor.x-36;
+    var x = _actor.x-24;
 
     if((x<_actor.parent.x))
     {
@@ -344,7 +341,7 @@ function LeftBoundaryCheck(_actor: actor): boolean
 
 function RightBoundaryCheck(_actor: actor): boolean
 {
-    var x = _actor.x+24;
+    var x = _actor.x+36;
     var offsetXEdge = BOARD_MAX_X+_actor.parent.x;
     console.log(x);
 
@@ -371,7 +368,7 @@ function TopBoundaryCheck(_actor: actor): boolean
 
 function BottomBoundaryCheck(_actor: actor): boolean
 {
-    var y = _actor.y+24;
+    var y = _actor.y+36;
     var offsetYEdge = BOARD_MAX_Y+_actor.parent.y;
     console.log(y);
     if(y>offsetYEdge)
