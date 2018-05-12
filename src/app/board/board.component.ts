@@ -11,7 +11,7 @@ const X_GRID_POSITIONS : number = (BOARD_MAX_X/16);
 const Y_GRID_POSITIONS : number = (BOARD_MAX_Y/16);
 const PLAYER_START_X: number = 0;
 const PLAYER_START_Y: number = 0;
-
+const NPC_COUNT : number = 25;
 
 @Component({
     template: require("./board.component.html")
@@ -42,11 +42,17 @@ export class BoardComponent implements AfterViewInit, OnInit {
         });
         console.log(this.npcArray);
 
-        this.player.graphics.beginFill("DeepSkyBlue").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 16);
+        this.player.graphics.beginFill("DeepSkyBlue").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 16)
+            .beginFill("black").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 2);
         this.player.x = PLAYER_START_X;
         this.player.currentX = PLAYER_START_X;
         this.player.y = PLAYER_START_Y;
         this.player.currentY =  PLAYER_START_Y;
+        this.player.attackPower = 10;
+        this.player.health = 100;
+        this.player.regX = 8;
+        this.player.regY = 8;
+
         this.gameBoard.addChild(this.player);
 
         this.gameBoard.update();
@@ -80,14 +86,14 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		});
 	}
 
-    beat(): void 
-    {
-	}
-
 	down(): void {
         // TODO - This is for NPC, replace with player control.
         if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16))
         {
+            // TODO - Remove when sprites are added 
+            this.player.rotation = 180;
+
+            this.player.currentFacingDirection = 2;
             this.player.y += 16;
             this.player.currentY += 16;
             this.gameBoard.update();
@@ -97,6 +103,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	left(): void {
         if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY))
         {
+            // TODO - Remove when sprites are added 
+            this.player.rotation = 270;
+
+            this.player.currentFacingDirection = 3;
             this.player.x -= 16;
             this.player.currentX -=16;
             this.gameBoard.update();
@@ -106,6 +116,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	right(): void {
         if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY))
         {
+            // TODO - Remove when sprites are added 
+            this.player.rotation = 90;
+
+            this.player.currentFacingDirection = 1;
             this.player.x += 16;
             this.player.currentX += 16;
             this.gameBoard.update();
@@ -115,6 +129,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	up(): void {
         if(!TopBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY - 16))
         {
+            // TODO - Remove when sprites are added 
+            this.player.rotation = 0;
+    
+            this.player.currentFacingDirection = 0;
             this.player.y -= 16;
             this.player.currentY -= 16;
             this.gameBoard.update();
@@ -170,7 +188,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         let yPos : number;
         //five for now; need to scale to difficulty later
         let isLegal : boolean;
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < NPC_COUNT; i++) {
             let npc = new actor();
             let side = selectSide();
             isLegal = false;
@@ -204,6 +222,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             }
             npc.currentX = xPos;
             npc.currentY = yPos;
+            npc.health = 100;
             npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
             this.npcArray.push(npc);
         }
@@ -246,12 +265,72 @@ export class BoardComponent implements AfterViewInit, OnInit {
         }
         return value;
     }
+
+
+
+
+
+    attack()
+    {
+        var attackX = this.player.currentX;
+        var attackY = this.player.currentY;
+        var attackOutcome = new attackResult;
+
+        if(this.player.currentFacingDirection === 0)
+        {
+            attackOutcome = this.detectHit(attackX,attackY - 16)
+        }
+        if(this.player.currentFacingDirection === 1)
+        {
+            attackOutcome = this.detectHit(attackX + 16,attackY)
+        }
+        if(this.player.currentFacingDirection === 2)
+        {
+            attackOutcome = this.detectHit(attackX,attackY - 16)
+        }
+        if(this.player.currentFacingDirection === 3)
+        {
+            attackOutcome = this.detectHit(attackX + 16,attackY)
+        }
+
+        if(attackOutcome.hit === true)
+        {
+            attackOutcome.victim.health -= this.player.attackPower;
+        }
+    }
+
+    detectHit(xPos, yPos) : attackResult 
+    {
+        var result = new attackResult();
+        result.hit = true;
+        result.victim = null;
+
+        this.obstacleArray.forEach((obstacle) => {
+            if (obstacle.currentX === xPos && obstacle.currentY === yPos) {
+                result.hit = false;
+                result.victim = obstacle;
+            }
+        });
+
+        if (this.npcArray && this.npcArray.length > 0) {
+            this.npcArray.forEach((npc) => {
+                if (npc.currentX === xPos && npc.currentY === yPos) {
+                    result.hit = false;
+                    result.victim = npc;
+                }
+            });
+        } 
+
+        return result;
+    }
+
 }
 
 class actor extends createjs.Shape {
     health: number;
     attackPower: number;
     previousDirection: number;
+    currentFacingDirection: number;
     currentX: number;
     currentY: number;
 }
@@ -261,6 +340,11 @@ function selectSide() : number {
     return side;
 }
 
+class attackResult
+{
+    hit: boolean;
+    victim: actor;
+}
 
 
 
