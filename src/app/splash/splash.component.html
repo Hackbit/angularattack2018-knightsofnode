@@ -1,5 +1,25 @@
 <h4>Splash Component</h4>
 <a routerLink="/board">Play the Game</a>
+<div *ngIf="isMobile()">
+	<div class="row">
+		<div class="col-sm-1 offset-sm-1">
+			<button class="btn" (click)="up()"><i class="fas fa-arrow-circle-up"></i></button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-1">
+			<button class="btn" (click)="left()"><i class="fas fa-arrow-circle-left"></i></button>
+		</div>
+		<div class="col-sm-1 offset-sm-1">
+			<button class="btn" (click)="right()"><i class="fas fa-arrow-circle-right"></i></button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-1 offset-sm-1">
+			<button class="btn" (click)="down()"><i class="fas fa-arrow-circle-down"></i></button>
+		</div>
+	</div>
+</div>
 <div>
 	<p><img [src]="'https://placekitten.com/g/' + getWidth() + '/' + getWidth()" alt=""/></p>
 </div>
