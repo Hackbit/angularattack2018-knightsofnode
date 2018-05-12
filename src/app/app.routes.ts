@@ -5,7 +5,7 @@ import {APP_BASE_HREF} from "@angular/common";
 import {WindowSizeService} from "./shared/services/window.size.service";
 
 
-export const allAppComponents = [SplashComponent];
+export const allAppComponents = [SplashComponent, BoardComponent];
 
 export const routes: Routes = [
 	{path: "board", component: BoardComponent},
