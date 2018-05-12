@@ -1,4 +1,4 @@
-import {Component, HostListener} from "@angular/core";
+import {Component, HostListener, OnDestroy} from "@angular/core";
 import {WindowSizeService} from "./shared/services/window.size.service";
 import {PlayerControlService} from "./shared/services/player.control.service";
 import {HeartbeatService} from "./shared/services/heartbeat.service";
@@ -8,7 +8,7 @@ import {HeartbeatService} from "./shared/services/heartbeat.service";
 	template: require("./app.component.html")
 })
 
-export class AppComponent {
+export class AppComponent implements OnDestroy {
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {}
 
@@ -31,5 +31,9 @@ export class AppComponent {
 	@HostListener("window:resize", ["$event"])
 	onResize(event): void {
 		this.windowSizeService.windowResize({height: event.target.innerHeight, width: event.target.innerWidth});
+	}
+
+	ngOnDestroy(): void {
+		this.heartbeatService.stop();
 	}
 }
