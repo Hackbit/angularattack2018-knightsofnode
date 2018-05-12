@@ -8,7 +8,7 @@ import * as createjs from 'createjs-module';
 export class BoardComponent implements AfterViewInit {
 
     ngAfterViewInit() {
-        var stage = new createjs.Stage("demoCanvas");
+        var stage = new createjs.Stage("gameBoard");
         var circle = new createjs.Shape();
         circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
         circle.x = 10;
