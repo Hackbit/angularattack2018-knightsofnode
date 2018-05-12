@@ -12,4 +12,12 @@ export class SplashComponent {
 	isMobile(): boolean {
 		return(this.windowSizeService.isMobile());
 	}
+
+	getWidth(): number {
+		if(this.isMobile() === true) {
+			return(Math.round(this.windowSizeService.getWindowSize().width * .9));
+		} else {
+			return(Math.round(this.windowSizeService.getWindowSize().width * .5));
+		}
+	}
 }
