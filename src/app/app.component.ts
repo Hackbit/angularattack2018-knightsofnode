@@ -1,5 +1,6 @@
 import {Component, HostListener} from "@angular/core";
 import {WindowSizeService} from "./shared/services/window.size.service";
+import {PlayerControlService} from "./shared/services/player.control.service";
 
 @Component({
 	selector: "knights-of-node",
@@ -8,7 +9,7 @@ import {WindowSizeService} from "./shared/services/window.size.service";
 
 export class AppComponent {
 
-	constructor(protected windowSizeService: WindowSizeService) {}
+	constructor(protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {}
 
 	@HostListener("document:keyup", ["$event"])
 	onKeyUpEvent(keyEvent: KeyboardEvent) {
@@ -16,13 +17,13 @@ export class AppComponent {
 		let key: string = keyEvent.key.toLowerCase();
 
 		if(noMetaKeys === true && key === "w") {
-			// up
+			this.playerControlService.up();
 		} else if(noMetaKeys === true && key === "a") {
-			// left
+			this.playerControlService.left()
 		} else if(noMetaKeys === true && key === "s") {
-			// down
+			this.playerControlService.down();
 		} else if(noMetaKeys === true && key === "d") {
-			// right
+			this.playerControlService.right();
 		}
 	}
 

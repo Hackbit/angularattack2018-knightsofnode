@@ -15,7 +15,7 @@ export class WindowSizeService {
 		return(this.windowSize);
 	}
 
-	windowResize(newWindowSize: WindowSize) {
+	windowResize(newWindowSize: WindowSize): void {
 		this.windowSize = newWindowSize;
 		this.onWindowResize.emit(this.windowSize);
 	}
