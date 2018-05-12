@@ -21,11 +21,27 @@ export class BoardComponent implements AfterViewInit {
 
         createjs.Ticker.setFPS(60);
 
-        document.addEventListener('keypress', function (event) {
-            createjs.Tween.get(circle, { loop: false })
-                .to({ x: circle.x + 10 }, 1000, createjs.Ease.getPowInOut(4))
-            stage.update();
-        });
-    }
+        document.addEventListener('keypress', handlePress);
+        function handlePress(event: KeyboardEvent) {
+            console.log(event.keyCode)
 
+            if(event.keyCode === 100)
+            {
+                circle.x += 25;
+            }
+            if(event.keyCode === 97)
+            {
+                circle.x -= 25;
+            }
+            if(event.keyCode === 115)
+            {
+                circle.y += 25;
+            }
+            if(event.keyCode === 119)
+            {
+                circle.y -= 25;
+            }
+            stage.update();
+        }
+    }
 }
