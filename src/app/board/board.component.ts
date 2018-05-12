@@ -141,44 +141,28 @@ export class BoardComponent implements AfterViewInit {
             isLegal = false;
             switch (side) {
                 case 0:
-                    while (isLegal === false) {
+                    do {
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = 0;
-                        isLegal = this.isMoveLegal(xPos, yPos);
-                        if (isLegal === false) {
-                            console.log("good");
-                        }
-                    }
+                    } while (this.isMoveLegal(xPos, yPos) == false);
                     break;
                 case 1:
-                    while (isLegal === false) {
+                    do {
                         xPos = 0;
                         yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                        isLegal = this.isMoveLegal(xPos, yPos);
-                        if (isLegal === false) {
-                            console.log("good");
-                        }
-                    }
+                    } while (this.isMoveLegal(xPos, yPos) == false);
                     break;
                 case 2:
-                    while (isLegal === false) {
+                    do {
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = BOARD_MAX_Y - 16;
-                        isLegal = this.isMoveLegal(xPos, yPos);
-                        if (isLegal === false) {
-                            console.log("good");
-                        }
-                    }
+                    } while (this.isMoveLegal(xPos, yPos) == false);
                     break;
                 case 3:
-                    while (isLegal === false) {
+                    do {
                         xPos = BOARD_MAX_X - 16;
                         yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                        isLegal = this.isMoveLegal(xPos, yPos);
-                        if (isLegal === false) {
-                            console.log("good");
-                        }
-                    }
+                    } while (this.isMoveLegal(xPos, yPos) == false);
                     break;
                 default:
                     console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
@@ -216,17 +200,11 @@ export class BoardComponent implements AfterViewInit {
 
         if (this.npcArray && this.npcArray.length > 0) {
             this.npcArray.forEach((npc) => {
-                let wasInHere = false;
                 if (npc.currentX === xPos && npc.currentY === yPos) {
-                    wasInHere = true;
                     return false;
-                }
-                if (wasInHere) {
-                    console.log("smoking gun");
                 }
             });
         } 
-        console.log("should see five of these, eventually")
         return true;
     }
 }
