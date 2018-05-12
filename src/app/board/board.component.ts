@@ -4,8 +4,8 @@ import {SpriteMovement} from "../shared/classes/sprite.movement"
 
 const BOARD_MAX_X : number = 768;
 const BOARD_MAX_Y : number = 432;
-const MAX_X_PLACEMENT : number = (BOARD_MAX_X/16) + 1;
-const MAX_Y_PLACEMENT : number = (BOARD_MAX_Y/16) + 1;
+const X_GRID_POSITIONS : number = (BOARD_MAX_X/16) + 1;
+const Y_GRID_POSITIONS : number = (BOARD_MAX_Y/16) + 1;
 
 @Component({
     template: require("./board.component.html")
@@ -30,6 +30,11 @@ export class BoardComponent implements AfterViewInit {
         this.obstacleArray = buildObstacleArray();
         this.obstacleArray.forEach((obstacle) => {
             this.gameBoard.addChild(obstacle);
+        });
+
+        this.npcArray = initializeNpcArray();
+        this.npcArray.forEach((npc) => {
+            this.gameBoard.addChild(npc);
         });
 
         this.player.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
@@ -78,8 +83,8 @@ function buildObstacleArray() : Array<actor> {
     let obstacleArray = Array<actor>();
     for (let i = 0; i < 75; i++) {
         let obstacle = new actor();
-        xPos = Math.floor(Math.random() * MAX_X_PLACEMENT) * 16;
-        yPos = Math.floor(Math.random() * MAX_Y_PLACEMENT) * 16;
+        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
         obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
         obstacleArray.push(obstacle);
     }
@@ -87,6 +92,47 @@ function buildObstacleArray() : Array<actor> {
 }
 
 function initializeNpcArray() : Array<actor> {
+    let xPos : number;
+    let yPos : number;
     let npcArray = Array<actor>();
+    //five for now; need to scale to difficulty later
+    for (let i = 0; i < 5; i++) {
+        let npc = new actor();
+        let side = selectSide();
+        switch (side) {
+            case 0://top
+                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                yPos = 0;
+                console.log("top");
+                break;
+            case 1://left
+                xPos = 0;
+                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                console.log("left");
+
+                break;
+            case 2://bottom *borked*
+                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                yPos = BOARD_MAX_Y - 16;
+                console.log("bottom");
+
+                break;
+            case 3://right
+                xPos = BOARD_MAX_X - 16;
+                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                console.log("right");
+
+                break;
+            default:
+                console.log("WRONG!!!!");
+        }
+        npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+        npcArray.push(npc);
+    }
     return npcArray;
+}
+
+function selectSide() : number {
+    let side : number = Math.floor(Math.random() * 4);
+    return side;
 }
