@@ -41,9 +41,11 @@ export class BoardComponent implements AfterViewInit {
         });
         console.log(this.npcArray);
 
-        this.player.graphics.beginFill("DeepSkyBlue").drawCircle(PLAYER_START_X, PLAYER_START_Y, 8);
-        this.player.x = 10;
-        this.player.y = 10;
+        this.player.graphics.beginFill("DeepSkyBlue").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 16);
+        this.player.x = PLAYER_START_X;
+        this.player.currentX = PLAYER_START_X;
+        this.player.y = PLAYER_START_Y;
+        this.player.currentY =  PLAYER_START_Y;
         this.gameBoard.addChild(this.player);
 
         this.gameBoard.update();
@@ -74,33 +76,37 @@ export class BoardComponent implements AfterViewInit {
 
 	down(): void {
         // TODO - This is for NPC, replace with player control.
-        if(!BottomBoundaryCheck(this.player))
+        if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16))
         {
             this.player.y += 16;
+            this.player.currentY += 16;
             this.gameBoard.update();
         }
 	}
 
 	left(): void {
-        if(!LeftBoundaryCheck(this.player))
+        if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY))
         {
             this.player.x -= 16;
+            this.player.currentX -=16;
             this.gameBoard.update();
         }
 	}
 
 	right(): void {
-        if(!RightBoundaryCheck(this.player))
+        if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY))
         {
             this.player.x += 16;
+            this.player.currentX += 16;
             this.gameBoard.update();
         }
 	}
 
 	up(): void {
-        if(!TopBoundaryCheck(this.player))
+        if(!TopBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY - 16))
         {
             this.player.y -= 16;
+            this.player.currentY -= 16;
             this.gameBoard.update();
         }
 	}
@@ -192,20 +198,21 @@ export class BoardComponent implements AfterViewInit {
     }
 
     isMoveLegal(xPos, yPos) : boolean {
+        let value : boolean = true;
         this.obstacleArray.forEach((obstacle) => {
             if (obstacle.currentX === xPos && obstacle.currentY === yPos) {
-                return false;
+                value = false;
             }
         });
 
         if (this.npcArray && this.npcArray.length > 0) {
             this.npcArray.forEach((npc) => {
                 if (npc.currentX === xPos && npc.currentY === yPos) {
-                    return false;
+                    value = false;
                 }
             });
         } 
-        return true;
+        return value;
     }
 }
 
