@@ -17,8 +17,8 @@ export class BoardComponent implements AfterViewInit {
 
     gameBoard: createjs.Stage;
     player: actor;
-    npcArray: Array<actor>;
-    obstacleArray: Array<actor>;
+    npcArray: Array<actor> = [];
+    obstacleArray: Array<actor> = [];
 
     ngAfterViewInit() {
         this.player = new actor();
@@ -27,12 +27,12 @@ export class BoardComponent implements AfterViewInit {
         background.graphics.beginFill("green").drawRect(0,0,768,432);
         this.gameBoard.addChild(background);
 
-        this.obstacleArray = this.buildObstacleArray();
+        this.buildObstacleArray();
         this.obstacleArray.forEach((obstacle) => {
             this.gameBoard.addChild(obstacle);
         });
 
-        this.npcArray = this.initializeNpcArray();
+        this.initializeNpcArray();
         this.npcArray.forEach((npc) => {
             this.gameBoard.addChild(npc);
         });
@@ -43,7 +43,7 @@ export class BoardComponent implements AfterViewInit {
         this.gameBoard.addChild(this.player);
 
         this.gameBoard.update();
-        //console.log(this.gameBoard);
+        console.log(this.gameBoard);
 
         createjs.Ticker.setFPS(60);
 
@@ -115,10 +115,9 @@ export class BoardComponent implements AfterViewInit {
         this.gameBoard.update();
     }
     
-    initializeNpcArray() : Array<actor> {
+    initializeNpcArray() : void {
         let xPos : number;
         let yPos : number;
-        let npcArray = Array<actor>();
         //five for now; need to scale to difficulty later
         for (let i = 0; i < 5; i++) {
             let npc = new actor();
@@ -157,13 +156,12 @@ export class BoardComponent implements AfterViewInit {
                     console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
             }
             npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
-            npcArray.push(npc);
+            this.npcArray.push(npc);
         }
-        return npcArray;
     }
 
     
-    buildObstacleArray() : Array<actor> {
+    buildObstacleArray() : void {
         let xPos : number = 384;
         let yPos : number = 208;
     
@@ -173,9 +171,8 @@ export class BoardComponent implements AfterViewInit {
             xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
             yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
             obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
-            obstacleArray.push(obstacle);
+            this.obstacleArray.push(obstacle);
         }
-        return obstacleArray;
     }
 
     isMoveLegal(xPos, yPos) : boolean {
