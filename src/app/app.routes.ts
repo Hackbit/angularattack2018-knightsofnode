@@ -9,13 +9,12 @@ import {WindowSizeService} from "./shared/services/window.size.service";
 export const allAppComponents = [SplashComponent];
 
 export const routes: Routes = [
-	{path: "/board", component: BoardComponent},
+	{path: "board", component: BoardComponent},
 	{path: "", component: SplashComponent}
 ];
 
 export const appRoutingProviders: any[] = [
 	{provide: APP_BASE_HREF, useValue: window["_base_href"]},
-	UserService,
 	WindowSizeService
 ];
 
