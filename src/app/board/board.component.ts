@@ -8,6 +8,9 @@ const BOARD_MAX_X : number = 768;
 const BOARD_MAX_Y : number = 432;
 const X_GRID_POSITIONS : number = (BOARD_MAX_X/16) + 1;
 const Y_GRID_POSITIONS : number = (BOARD_MAX_Y/16) + 1;
+const PLAYER_START_X: number = 0;
+const PLAYER_START_Y: number = 0;
+
 
 @Component({
     template: require("./board.component.html")
@@ -37,7 +40,7 @@ export class BoardComponent implements AfterViewInit {
             this.gameBoard.addChild(npc);
         });
 
-        this.player.graphics.beginFill("DeepSkyBlue").drawCircle(100, 256, 16);
+        this.player.graphics.beginFill("DeepSkyBlue").drawCircle(PLAYER_START_X, PLAYER_START_Y, 8);
         this.player.x = 10;
         this.player.y = 10;
         this.gameBoard.addChild(this.player);
@@ -70,29 +73,40 @@ export class BoardComponent implements AfterViewInit {
 
 	down(): void {
         // TODO - This is for NPC, replace with player control.
-		this.HandleNpcMovement();
+        if(!BottomBoundaryCheck(this.player))
+        {
+            this.player.y += 16;
+            this.gameBoard.update();
+        }
 	}
 
 	left(): void {
-        this.player.x -= 16;
-        this.gameBoard.update();
+        if(!LeftBoundaryCheck(this.player))
+        {
+            this.player.x -= 16;
+            this.gameBoard.update();
+        }
 	}
 
 	right(): void {
-        this.player.x += 16;
-        this.gameBoard.update();
+        if(!RightBoundaryCheck(this.player))
+        {
+            this.player.x += 16;
+            this.gameBoard.update();
+        }
 	}
 
 	up(): void {
-        this.player.y -= 16;
-        this.gameBoard.update();
+        if(!TopBoundaryCheck(this.player))
+        {
+            this.player.y -= 16;
+            this.gameBoard.update();
+        }
 	}
 
     HandleNpcMovement()
     {   
         var direction = GetNpcDirection(this.player.previousDirection);
-        var boundaryCheck = BoundaryCheck(this.player);
-        console.log(boundaryCheck )
 
         if(direction === 0 )
         {
@@ -201,10 +215,110 @@ class actor extends createjs.Shape {
     previousDirection: number;
 }
 
+<<<<<<< Updated upstream
+=======
+function buildObstacleArray() : Array<actor> {
+    let xPos : number = 384;
+    let yPos : number = 208;
+ 
+    let obstacleArray = Array<actor>();
+    for (let i = 0; i < 75; i++) {
+        let obstacle = new actor();
+        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+        obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
+        obstacleArray.push(obstacle);
+    }
+    return obstacleArray;
+}
+
+function initializeNpcArray() : Array<actor> {
+    let xPos : number;
+    let yPos : number;
+    let npcArray = Array<actor>();
+    //five for now; need to scale to difficulty later
+    for (let i = 0; i < 5; i++) {
+        let npc = new actor();
+        let side = selectSide();
+        switch (side) {
+            case 0://top
+                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                yPos = 0;
+                console.log("top");
+                break;
+            case 1://left
+                xPos = 0;
+                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                console.log("left");
+
+                break;
+            case 2://bottom *borked*
+                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                yPos = BOARD_MAX_Y - 16;
+                console.log("bottom");
+
+                break;
+            case 3://right
+                xPos = BOARD_MAX_X - 16;
+                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                console.log("right");
+
+                break;
+            default:
+                console.log("WRONG!!!!");
+        }
+        npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+        npcArray.push(npc);
+    }
+    return npcArray;
+}
+
+>>>>>>> Stashed changes
 function selectSide() : number {
     let side : number = Math.floor(Math.random() * 4);
     return side;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -249,23 +363,51 @@ function GetNpcDirection(previousDir : number) : number
     }
 }
 
-function BoundaryCheck(_actor: actor): boolean
+function LeftBoundaryCheck(_actor: actor): boolean
 {
-    console.log(_actor.x)
-    console.log(_actor.y)
-    if(_actor.x-16 <= 0)
+    var x = _actor.x-36;
+
+    if((x<_actor.parent.x))
     {
         return true;
     }
-    if(_actor.x+16 >= BOARD_MAX_X)
+
+    return false;
+}
+
+function RightBoundaryCheck(_actor: actor): boolean
+{
+    var x = _actor.x+24;
+    var offsetXEdge = BOARD_MAX_X+_actor.parent.x;
+    console.log(x);
+
+    if(x>offsetXEdge)
     {
         return true;
     }
-    if(_actor.y-16 <= 0)
+
+    return false;
+}
+
+function TopBoundaryCheck(_actor: actor): boolean
+{
+    var y = _actor.y-32;
+    
+    console.log(y);
+    if(y<_actor.parent.y)
     {
         return true;
     }
-    if(_actor.x+16 >= BOARD_MAX_Y)
+
+    return false;
+}
+
+function BottomBoundaryCheck(_actor: actor): boolean
+{
+    var y = _actor.y+24;
+    var offsetYEdge = BOARD_MAX_Y+_actor.parent.y;
+    console.log(y);
+    if(y>offsetYEdge)
     {
         return true;
     }
