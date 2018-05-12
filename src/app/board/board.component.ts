@@ -87,7 +87,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	down(): void {
         // TODO - This is for NPC, replace with player control.
         if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16))
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         {
             this.player.y += 16;
             this.player.currentY += 16;
@@ -128,23 +131,39 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
         if(direction === 0 )
         {
-            npc.y += 16;
-            npc.previousDirection = direction;
+            if(!TopBoundaryCheck(npc) && this.isMoveLegal(npc.currentX,npc.currentY - 16))
+            {
+                npc.y -= 16;
+                npc.currentY -= 16;
+                npc.previousDirection = direction;
+            }
         }
         if(direction === 1 )
         {
-            npc.x += 16;
-            npc.previousDirection = direction;
+            if(!RightBoundaryCheck(npc) && this.isMoveLegal(npc.currentX+16,npc.currentY))
+            {
+                npc.x += 16;
+                npc.currentX += 16;
+                npc.previousDirection = direction;
+            }
         }
         if(direction === 2 )
         {
-            npc.y -= 16;
-            npc.previousDirection = direction;
+            if(!BottomBoundaryCheck(npc) && this.isMoveLegal(npc.currentX,npc.currentY+16))
+            {
+                npc.y += 16;
+                npc.currentY += 16;
+                npc.previousDirection = direction;
+            }
         }
         if(direction === 3 )
         {
-            npc.x -= 16;
-            npc.previousDirection = direction;
+            if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX-16,npc.currentY))
+            {
+                npc.x -= 16;
+                npc.currentX -= 16;
+                npc.previousDirection = direction;
+            }
         }           
         
         this.gameBoard.update();
@@ -155,13 +174,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
         let yPos : number;
         //five for now; need to scale to difficulty later
         let isLegal : boolean;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 25; i++) {
             let npc = new actor();
             let side = selectSide();
             isLegal = false;
             switch (side) {
                 case 0:
-                    do {
+                    do { 
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = 0;
                     } while (this.isMoveLegal(xPos, yPos) == false);
@@ -317,7 +336,7 @@ function GetNpcDirection(previousDir : number) : number
     var pdirection = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
     var pChangeDir = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
 
-    if( pChangeDir === 2 || pChangeDir === 3 || pChangeDir === 4 || pChangeDir === 5 || pChangeDir === 6)
+    if(pChangeDir === 2 || pChangeDir === 3 ||pChangeDir === 4 || pChangeDir === 5 || pChangeDir === 6)
     {
         return previousDir;
     }
@@ -329,7 +348,11 @@ function GetNpcDirection(previousDir : number) : number
 
 function LeftBoundaryCheck(_actor: actor): boolean
 {
+<<<<<<< Updated upstream
     var x = _actor.x-24;
+=======
+    var x = _actor.currentX-16;
+>>>>>>> Stashed changes
 
     if((x<_actor.parent.x))
     {
@@ -341,9 +364,12 @@ function LeftBoundaryCheck(_actor: actor): boolean
 
 function RightBoundaryCheck(_actor: actor): boolean
 {
+<<<<<<< Updated upstream
     var x = _actor.x+36;
+=======
+    var x = _actor.currentX+32;
+>>>>>>> Stashed changes
     var offsetXEdge = BOARD_MAX_X+_actor.parent.x;
-    console.log(x);
 
     if(x>offsetXEdge)
     {
@@ -355,9 +381,8 @@ function RightBoundaryCheck(_actor: actor): boolean
 
 function TopBoundaryCheck(_actor: actor): boolean
 {
-    var y = _actor.y-32;
-    
-    console.log(y);
+    var y = _actor.currentY-16;
+
     if(y<_actor.parent.y)
     {
         return true;
@@ -368,9 +393,13 @@ function TopBoundaryCheck(_actor: actor): boolean
 
 function BottomBoundaryCheck(_actor: actor): boolean
 {
+<<<<<<< Updated upstream
     var y = _actor.y+36;
+=======
+    var y = _actor.currentY+32;
+>>>>>>> Stashed changes
     var offsetYEdge = BOARD_MAX_Y+_actor.parent.y;
-    console.log(y);
+
     if(y>offsetYEdge)
     {
         return true;
