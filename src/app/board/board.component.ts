@@ -4,6 +4,8 @@ import {SpriteMovement} from "../shared/classes/sprite.movement"
 
 const BOARD_MAX_X : number = 768;
 const BOARD_MAX_Y : number = 432;
+const MAX_X_PLACEMENT : number = (BOARD_MAX_X/16) + 1;
+const MAX_Y_PLACEMENT : number = (BOARD_MAX_Y/16) + 1;
 
 @Component({
     template: require("./board.component.html")
@@ -72,16 +74,19 @@ class actor extends createjs.Shape {
 function buildObstacleArray() : Array<actor> {
     let xPos : number;
     let yPos : number;
-    const xMax : number = (BOARD_MAX_X/16) + 1;
-    const yMax : number = (BOARD_MAX_Y/16) + 1;
 
     let obstacleArray = Array<actor>();
     for (let i = 0; i < 75; i++) {
         let obstacle = new actor();
-        xPos = Math.floor(Math.random() * xMax) * 16;
-        yPos = Math.floor(Math.random() * yMax) * 16;
+        xPos = Math.floor(Math.random() * MAX_X_PLACEMENT) * 16;
+        yPos = Math.floor(Math.random() * MAX_Y_PLACEMENT) * 16;
         obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
         obstacleArray.push(obstacle);
     }
     return obstacleArray;
+}
+
+function initializeNpcArray() : Array<actor> {
+    let npcArray = Array<actor>();
+    return npcArray;
 }
