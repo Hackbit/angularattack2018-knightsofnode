@@ -6,8 +6,8 @@ import { LEFT, RIGHT, UP, DOWN } from "../shared/services/player.control.service
 
 const BOARD_MAX_X : number = 768;
 const BOARD_MAX_Y : number = 432;
-const X_GRID_POSITIONS : number = (BOARD_MAX_X/16) + 1;
-const Y_GRID_POSITIONS : number = (BOARD_MAX_Y/16) + 1;
+const X_GRID_POSITIONS : number = (BOARD_MAX_X/16);
+const Y_GRID_POSITIONS : number = (BOARD_MAX_Y/16);
 const PLAYER_START_X: number = 0;
 const PLAYER_START_Y: number = 0;
 
@@ -39,6 +39,7 @@ export class BoardComponent implements AfterViewInit {
         this.npcArray.forEach((npc) => {
             this.gameBoard.addChild(npc);
         });
+        console.log(this.npcArray);
 
         this.player.graphics.beginFill("DeepSkyBlue").drawCircle(PLAYER_START_X, PLAYER_START_Y, 8);
         this.player.x = 10;
@@ -133,16 +134,20 @@ export class BoardComponent implements AfterViewInit {
         let xPos : number;
         let yPos : number;
         //five for now; need to scale to difficulty later
+        let isLegal : boolean;
         for (let i = 0; i < 5; i++) {
             let npc = new actor();
             let side = selectSide();
-            let isLegal : boolean = false;
+            isLegal = false;
             switch (side) {
                 case 0:
                     while (isLegal === false) {
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = 0;
                         isLegal = this.isMoveLegal(xPos, yPos);
+                        if (isLegal === false) {
+                            console.log("good");
+                        }
                     }
                     break;
                 case 1:
@@ -150,13 +155,19 @@ export class BoardComponent implements AfterViewInit {
                         xPos = 0;
                         yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
                         isLegal = this.isMoveLegal(xPos, yPos);
+                        if (isLegal === false) {
+                            console.log("good");
+                        }
                     }
                     break;
                 case 2:
-                    while (!isLegal === false) {
+                    while (isLegal === false) {
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = BOARD_MAX_Y - 16;
                         isLegal = this.isMoveLegal(xPos, yPos);
+                        if (isLegal === false) {
+                            console.log("good");
+                        }
                     }
                     break;
                 case 3:
@@ -164,6 +175,9 @@ export class BoardComponent implements AfterViewInit {
                         xPos = BOARD_MAX_X - 16;
                         yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
                         isLegal = this.isMoveLegal(xPos, yPos);
+                        if (isLegal === false) {
+                            console.log("good");
+                        }
                     }
                     break;
                 default:
@@ -202,11 +216,17 @@ export class BoardComponent implements AfterViewInit {
 
         if (this.npcArray && this.npcArray.length > 0) {
             this.npcArray.forEach((npc) => {
+                let wasInHere = false;
                 if (npc.currentX === xPos && npc.currentY === yPos) {
+                    wasInHere = true;
                     return false;
+                }
+                if (wasInHere) {
+                    console.log("smoking gun");
                 }
             });
         } 
+        console.log("should see five of these, eventually")
         return true;
     }
 }
