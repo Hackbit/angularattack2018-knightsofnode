@@ -139,28 +139,28 @@ export class BoardComponent implements AfterViewInit {
             let isLegal : boolean = false;
             switch (side) {
                 case 0:
-                    while (!isLegal) {
+                    while (isLegal === false) {
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = 0;
                         isLegal = this.isMoveLegal(xPos, yPos);
                     }
                     break;
                 case 1:
-                    while (!isLegal) {
+                    while (isLegal === false) {
                         xPos = 0;
                         yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
                         isLegal = this.isMoveLegal(xPos, yPos);
                     }
                     break;
                 case 2:
-                    while (!isLegal) {
+                    while (!isLegal === false) {
                         xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                         yPos = BOARD_MAX_Y - 16;
                         isLegal = this.isMoveLegal(xPos, yPos);
                     }
                     break;
                 case 3:
-                    while (!isLegal) {
+                    while (isLegal === false) {
                         xPos = BOARD_MAX_X - 16;
                         yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
                         isLegal = this.isMoveLegal(xPos, yPos);
@@ -219,65 +219,6 @@ class actor extends createjs.Shape {
     currentY: number;
 }
 
-<<<<<<< Updated upstream
-=======
-function buildObstacleArray() : Array<actor> {
-    let xPos : number = 384;
-    let yPos : number = 208;
- 
-    let obstacleArray = Array<actor>();
-    for (let i = 0; i < 75; i++) {
-        let obstacle = new actor();
-        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-        obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
-        obstacleArray.push(obstacle);
-    }
-    return obstacleArray;
-}
-
-function initializeNpcArray() : Array<actor> {
-    let xPos : number;
-    let yPos : number;
-    let npcArray = Array<actor>();
-    //five for now; need to scale to difficulty later
-    for (let i = 0; i < 5; i++) {
-        let npc = new actor();
-        let side = selectSide();
-        switch (side) {
-            case 0://top
-                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-                yPos = 0;
-                console.log("top");
-                break;
-            case 1://left
-                xPos = 0;
-                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                console.log("left");
-
-                break;
-            case 2://bottom *borked*
-                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-                yPos = BOARD_MAX_Y - 16;
-                console.log("bottom");
-
-                break;
-            case 3://right
-                xPos = BOARD_MAX_X - 16;
-                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                console.log("right");
-
-                break;
-            default:
-                console.log("WRONG!!!!");
-        }
-        npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
-        npcArray.push(npc);
-    }
-    return npcArray;
-}
-
->>>>>>> Stashed changes
 function selectSide() : number {
     let side : number = Math.floor(Math.random() * 4);
     return side;
