@@ -36,7 +36,6 @@
 		"@angular/platform-browser": "^6.0.0",
 		"@angular/platform-browser-dynamic": "^6.0.0",
 		"@angular/router": "^6.0.0",
-		"angular-resize-event": "^0.4.2",
 		"core-js": "^2.5.5",
 		"createjs-module": "^0.8.3",
 		"rxjs": "^6.1.0",
