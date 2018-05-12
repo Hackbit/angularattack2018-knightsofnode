@@ -10,9 +10,11 @@ export class BoardComponent implements AfterViewInit {
 
     heroMovement = new SpriteMovement();
 
+    npcArray = [];
+
     ngAfterViewInit() {
         var stage = new createjs.Stage("gameBoard");
-        var circle = new createjs.Shape();
+        var circle = new character();
         circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
         circle.x = 10;
         circle.y = 10;
@@ -47,4 +49,9 @@ export class BoardComponent implements AfterViewInit {
             stage.update();
         }
     }
+}
+
+class character extends createjs.Shape {
+    health: number;
+    attackPower: number;
 }
