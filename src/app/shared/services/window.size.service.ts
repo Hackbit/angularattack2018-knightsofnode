@@ -3,7 +3,7 @@ import {WindowSize} from "../classes/window.size";
 
 @Injectable()
 export class WindowSizeService {
-	windowSize: WindowSize = {height: 0, width: 0};
+	windowSize: WindowSize = {height: window.innerHeight, width: window.innerWidth};
 	onWindowResize: EventEmitter<WindowSize> = new EventEmitter<WindowSize>();
 	SM_BREAKPOINT: number = 768;
 
@@ -15,7 +15,8 @@ export class WindowSizeService {
 		return(this.windowSize);
 	}
 
-	windowResize(newHeight: number, newWidth: number) {
-		this.onWindowResize.emit({height: newHeight, width: newWidth});
+	windowResize(newWindowSize: WindowSize) {
+		this.windowSize = newWindowSize;
+		this.onWindowResize.emit(this.windowSize);
 	}
 }
