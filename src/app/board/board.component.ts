@@ -2,6 +2,9 @@ import { Component, HostListener, AfterViewInit } from "@angular/core";
 import * as createjs from 'createjs-module';
 import {SpriteMovement} from "../shared/classes/sprite.movement"
 
+const BOARD_MAX_X : number = 768;
+const BOARD_MAX_Y : number = 432;
+
 @Component({
     template: require("./board.component.html")
 })
@@ -69,17 +72,16 @@ class actor extends createjs.Shape {
 function buildObstacleArray() : Array<actor> {
     let xPos : number;
     let yPos : number;
+    const xMax : number = (BOARD_MAX_X/16) + 1;
+    const yMax : number = (BOARD_MAX_Y/16) + 1;
 
     let obstacleArray = Array<actor>();
-    //needs to build objects, assign them a sprite, put them into the array
-    //100 to start
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 75; i++) {
         let obstacle = new actor();
-        xPos = Math.floor(Math.random() * 10) * 16;
-        yPos = Math.floor(Math.random() * 10) * 16;
+        xPos = Math.floor(Math.random() * xMax) * 16;
+        yPos = Math.floor(Math.random() * yMax) * 16;
         obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
         obstacleArray.push(obstacle);
-        console.log(obstacle);
     }
     return obstacleArray;
 }
