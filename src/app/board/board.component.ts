@@ -27,12 +27,12 @@ export class BoardComponent implements AfterViewInit {
         background.graphics.beginFill("green").drawRect(0,0,768,432);
         this.gameBoard.addChild(background);
 
-        this.obstacleArray = buildObstacleArray();
+        this.obstacleArray = this.buildObstacleArray();
         this.obstacleArray.forEach((obstacle) => {
             this.gameBoard.addChild(obstacle);
         });
 
-        this.npcArray = initializeNpcArray();
+        this.npcArray = this.initializeNpcArray();
         this.npcArray.forEach((npc) => {
             this.gameBoard.addChild(npc);
         });
@@ -114,61 +114,62 @@ export class BoardComponent implements AfterViewInit {
     
         this.gameBoard.update();
     }
+    
+    initializeNpcArray() : Array<actor> {
+        let xPos : number;
+        let yPos : number;
+        let npcArray = Array<actor>();
+        //five for now; need to scale to difficulty later
+        for (let i = 0; i < 5; i++) {
+            let npc = new actor();
+            let side = selectSide();
+            switch (side) {
+                case 0:
+                    xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                    yPos = 0;
+                    break;
+                case 1:
+                    xPos = 0;
+                    yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                    break;
+                case 2:
+                    xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                    yPos = BOARD_MAX_Y - 16;
+                    break;
+                case 3:
+                    xPos = BOARD_MAX_X - 16;
+                    yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                    break;
+                default:
+                    console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
+            }
+            npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+            npcArray.push(npc);
+        }
+        return npcArray;
+    }
+
+    
+    buildObstacleArray() : Array<actor> {
+        let xPos : number = 384;
+        let yPos : number = 208;
+    
+        let obstacleArray = Array<actor>();
+        for (let i = 0; i < 75; i++) {
+            let obstacle = new actor();
+            xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+            yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+            obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
+            obstacleArray.push(obstacle);
+        }
+        return obstacleArray;
+    }
 }
 
 class actor extends createjs.Shape {
     health: number;
     attackPower: number;
     previousDirection: number;
-}
-
-function buildObstacleArray() : Array<actor> {
-    let xPos : number = 384;
-    let yPos : number = 208;
- 
-    let obstacleArray = Array<actor>();
-    for (let i = 0; i < 75; i++) {
-        let obstacle = new actor();
-        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-        obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
-        obstacleArray.push(obstacle);
-    }
-    return obstacleArray;
-}
-
-function initializeNpcArray() : Array<actor> {
-    let xPos : number;
-    let yPos : number;
-    let npcArray = Array<actor>();
-    //five for now; need to scale to difficulty later
-    for (let i = 0; i < 5; i++) {
-        let npc = new actor();
-        let side = selectSide();
-        switch (side) {
-            case 0:
-                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-                yPos = 0;
-                break;
-            case 1:
-                xPos = 0;
-                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                break;
-            case 2:
-                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-                yPos = BOARD_MAX_Y - 16;
-                break;
-            case 3:
-                xPos = BOARD_MAX_X - 16;
-                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                break;
-            default:
-                console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
-        }
-        npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
-        npcArray.push(npc);
-    }
-    return npcArray;
 }
 
 function selectSide() : number {
