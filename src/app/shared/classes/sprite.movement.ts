@@ -9,6 +9,6 @@ export class SpriteMovement {
         return xPosition - 25;
     };
     moveRight(xPosition): number {
-        return xPosition - 25;
+        return xPosition + 25;
     };
 }

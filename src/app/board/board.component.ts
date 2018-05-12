@@ -8,6 +8,8 @@ import {SpriteMovement} from "../shared/classes/sprite.movement"
 
 export class BoardComponent implements AfterViewInit {
 
+    heroMovement = new SpriteMovement();
+
     ngAfterViewInit() {
         var stage = new createjs.Stage("gameBoard");
         var circle = new createjs.Shape();
@@ -28,19 +30,19 @@ export class BoardComponent implements AfterViewInit {
 
             if(event.keyCode === 100)
             {
-                circle.x += 25;
+                circle.x = this.heroMovement.moveRight(circle.x);
             }
             if(event.keyCode === 97)
             {
-                circle.x -= 25;
+                circle.x = this.heroMovement.moveLeft(circle.x);
             }
             if(event.keyCode === 115)
             {
-                circle.y += 25;
+                circle.y = this.heroMovement.moveUp(circle.y);
             }
             if(event.keyCode === 119)
             {
-                circle.y -= 25;
+                circle.y = this.heroMovement.moveDown(circle.y);
             }
             stage.update();
         }
