@@ -100,31 +100,24 @@ function initializeNpcArray() : Array<actor> {
         let npc = new actor();
         let side = selectSide();
         switch (side) {
-            case 0://top
+            case 0:
                 xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                 yPos = 0;
-                console.log("top");
                 break;
-            case 1://left
+            case 1:
                 xPos = 0;
                 yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                console.log("left");
-
                 break;
-            case 2://bottom *borked*
+            case 2:
                 xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
                 yPos = BOARD_MAX_Y - 16;
-                console.log("bottom");
-
                 break;
-            case 3://right
+            case 3:
                 xPos = BOARD_MAX_X - 16;
                 yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
-                console.log("right");
-
                 break;
             default:
-                console.log("WRONG!!!!");
+                console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
         }
         npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
         npcArray.push(npc);
