@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {PlayerControlService} from "../shared/services/player.control.service";
 import {WindowSizeService} from "../shared/services/window.size.service";
-import {DOWN, LEFT, RIGHT, UP} from "../shared/services/player.control.service";
+import {ATTACK, DOWN, LEFT, RIGHT, UP} from "../shared/services/player.control.service";
 import {HeartbeatService} from "../shared/services/heartbeat.service";
 
 @Component({
@@ -22,6 +22,9 @@ export class SplashComponent {
 				this.konami = true;
 			}
 			switch(direction) {
+				case ATTACK:
+					this.attack();
+					break;
 				case DOWN:
 					this.down();
 					break;
@@ -36,6 +39,10 @@ export class SplashComponent {
 					break;
 			}
 		});
+	}
+
+	attack(): void {
+		console.log("red alert");
 	}
 
 	beat(): void {

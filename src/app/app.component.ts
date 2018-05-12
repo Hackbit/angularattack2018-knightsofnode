@@ -25,6 +25,8 @@ export class AppComponent implements OnDestroy {
 			this.playerControlService.down();
 		} else if(noMetaKeys === true && (key === "d" || key === "arrowright")) {
 			this.playerControlService.right();
+		} else if(noMetaKeys === true && key === " ") {
+			this.playerControlService.attack();
 		}
 	}
 
