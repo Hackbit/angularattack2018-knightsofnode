@@ -1,5 +1,6 @@
 import { Component, HostListener, AfterViewInit } from "@angular/core";
 import * as createjs from 'createjs-module';
+import {SpriteMovement} from "../shared/classes/sprite.movement"
 
 @Component({
     template: require("./board.component.html")

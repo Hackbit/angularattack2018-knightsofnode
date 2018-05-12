@@ -1,4 +1,4 @@
-export class spriteMovement {
+export class SpriteMovement {
     moveUp(yPosition): number {
         return yPosition + 25;
     };
