@@ -17,13 +17,13 @@ export class AppComponent implements OnDestroy {
 		let noMetaKeys: boolean = keyEvent.altKey === false && keyEvent.ctrlKey === false && keyEvent.metaKey == false && keyEvent.repeat === false;
 		let key: string = keyEvent.key.toLowerCase();
 
-		if(noMetaKeys === true && key === "w") {
+		if(noMetaKeys === true && (key === "w" || key === "arrowup")) {
 			this.playerControlService.up();
-		} else if(noMetaKeys === true && key === "a") {
+		} else if(noMetaKeys === true && (key === "a" || key === "arrowleft")) {
 			this.playerControlService.left()
-		} else if(noMetaKeys === true && key === "s") {
+		} else if(noMetaKeys === true && (key === "s" || key === "arrowdown")) {
 			this.playerControlService.down();
-		} else if(noMetaKeys === true && key === "d") {
+		} else if(noMetaKeys === true && (key === "d" || key === "arrowright")) {
 			this.playerControlService.right();
 		}
 	}
