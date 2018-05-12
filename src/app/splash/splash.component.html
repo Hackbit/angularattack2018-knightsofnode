@@ -1,22 +1,29 @@
 <h4>Splash Component</h4>
 <a routerLink="/board">Play the Game</a>
 <div class="d-md-none">
-	<div class="row">
-		<div class="col-1 offset-1">
-			<button class="btn" (click)="up()"><i class="fas fa-arrow-circle-up"></i></button>
+	<div class="align-items-center row">
+		<div class="col-6">
+			<div class="row justify-content-center">
+				<div class="col-1">
+					<button class="btn" (click)="up()"><i class="fas fa-arrow-circle-up"></i></button>
+				</div>
+			</div>
+			<div class="row justify-content-between">
+				<div class="col-1">
+					<button class="btn" (click)="left()"><i class="fas fa-arrow-circle-left"></i></button>
+				</div>
+				<div class="col-1">
+					<button class="btn" (click)="right()"><i class="fas fa-arrow-circle-right"></i></button>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-1">
+					<button class="btn" (click)="down()"><i class="fas fa-arrow-circle-down"></i></button>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-1">
-			<button class="btn" (click)="left()"><i class="fas fa-arrow-circle-left"></i></button>
-		</div>
-		<div class="col-1 offset-1">
-			<button class="btn" (click)="right()"><i class="fas fa-arrow-circle-right"></i></button>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-1 offset-1">
-			<button class="btn" (click)="down()"><i class="fas fa-arrow-circle-down"></i></button>
+		<div class="col-5 offset-1">
+			<button class="btn btn-lg">Fire</button>
 		</div>
 	</div>
 </div>
