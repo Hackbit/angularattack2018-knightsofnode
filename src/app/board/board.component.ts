@@ -123,22 +123,35 @@ export class BoardComponent implements AfterViewInit {
         for (let i = 0; i < 5; i++) {
             let npc = new actor();
             let side = selectSide();
+            let isLegal : boolean = false;
             switch (side) {
                 case 0:
-                    xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-                    yPos = 0;
+                    while (!isLegal) {
+                        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                        yPos = 0;
+                        isLegal = this.isMoveLegal(xPos, yPos);
+                    }
                     break;
                 case 1:
-                    xPos = 0;
-                    yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                    while (!isLegal) {
+                        xPos = 0;
+                        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                        isLegal = this.isMoveLegal(xPos, yPos);
+                    }
                     break;
                 case 2:
-                    xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-                    yPos = BOARD_MAX_Y - 16;
+                    while (!isLegal) {
+                        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                        yPos = BOARD_MAX_Y - 16;
+                        isLegal = this.isMoveLegal(xPos, yPos);
+                    }
                     break;
                 case 3:
-                    xPos = BOARD_MAX_X - 16;
-                    yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                    while (!isLegal) {
+                        xPos = BOARD_MAX_X - 16;
+                        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                        isLegal = this.isMoveLegal(xPos, yPos);
+                    }
                     break;
                 default:
                     console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
@@ -163,6 +176,25 @@ export class BoardComponent implements AfterViewInit {
             obstacleArray.push(obstacle);
         }
         return obstacleArray;
+    }
+
+    isMoveLegal(xPos, yPos) : boolean {
+        let isLegal : boolean = true;
+        this.obstacleArray.forEach((obstacle) => {
+            if (obstacle.x === xPos && obstacle.y === yPos) {
+                isLegal = false
+            }
+        });
+
+        if (this.npcArray && this.npcArray.length > 0) {
+            this.npcArray.forEach((npc) => {
+                if (npc.x === xPos && npc.y === yPos) {
+                    isLegal = false
+                }
+            });
+        } 
+
+        return isLegal;
     }
 }
 
