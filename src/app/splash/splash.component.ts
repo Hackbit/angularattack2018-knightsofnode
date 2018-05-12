@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {PlayerControlService} from "../shared/services/player.control.service";
 import {WindowSizeService} from "../shared/services/window.size.service";
 import {DOWN, LEFT, RIGHT, UP} from "../shared/services/player.control.service";
+import {HeartbeatService} from "../shared/services/heartbeat.service";
 
 @Component({
 	template: require("./splash.component.html")
@@ -12,7 +13,8 @@ export class SplashComponent {
 	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT;
 	moves: string[] = [];
 
-	constructor(protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
+	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
+		this.heartbeatService.heartbeat.subscribe(this.beat);
 		this.playerControlService.playerAction.subscribe((direction: string) => {
 			this.moves = this.moves.slice(-15);
 			this.moves.push(direction);
@@ -34,6 +36,10 @@ export class SplashComponent {
 					break;
 			}
 		});
+	}
+
+	beat(): void {
+		console.log("beat it");
 	}
 
 	down(): void {

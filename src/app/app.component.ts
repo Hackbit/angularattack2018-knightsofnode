@@ -1,6 +1,7 @@
 import {Component, HostListener} from "@angular/core";
 import {WindowSizeService} from "./shared/services/window.size.service";
 import {PlayerControlService} from "./shared/services/player.control.service";
+import {HeartbeatService} from "./shared/services/heartbeat.service";
 
 @Component({
 	selector: "knights-of-node",
@@ -9,7 +10,7 @@ import {PlayerControlService} from "./shared/services/player.control.service";
 
 export class AppComponent {
 
-	constructor(protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {}
+	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {}
 
 	@HostListener("document:keyup", ["$event"])
 	onKeyUpEvent(keyEvent: KeyboardEvent) {
