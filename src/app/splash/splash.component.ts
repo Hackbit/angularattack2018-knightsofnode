@@ -10,7 +10,7 @@ import {HeartbeatService} from "../shared/services/heartbeat.service";
 
 export class SplashComponent {
 	konami: boolean = false;
-	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT;
+	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT + ATTACK;
 	moves: string[] = [];
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
