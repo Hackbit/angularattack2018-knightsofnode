@@ -8,9 +8,17 @@ import {DOWN, LEFT, RIGHT, UP} from "../shared/services/player.control.service";
 })
 
 export class SplashComponent {
+	konami: boolean = false;
+	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT;
+	moves: string[] = [];
 
 	constructor(protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
 		this.playerControlService.playerAction.subscribe((direction: string) => {
+			this.moves = this.moves.slice(-15);
+			this.moves.push(direction);
+			if(this.moves.join("").indexOf(this.konamiCode) >= 0) {
+				this.konami = true;
+			}
 			switch(direction) {
 				case DOWN:
 					this.down();
