@@ -46,6 +46,10 @@ kbd {
 	color: #ffffff;
 }
 
+.splash-image-container {
+	min-height: 512px;
+}
+
 .jumbotron-fluid {
 	padding-bottom: 8px;
 }
