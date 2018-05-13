@@ -414,7 +414,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
             if(this.isCriticalHit())
             {
-                attackOutcome.victim.health -= this.player.attackPower*2;
+                attackOutcome.victim.health -= this.player.attackPower*5;
                 this.criticalHit = true;
                 window.setTimeout(gameBoard => gameBoard.criticalHit = false, 1000, this);
                 
@@ -453,7 +453,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
     {
         var randomNum = Math.random();
 
-        if(randomNum < 4 )        {
+        if(randomNum < .05)
+        {
             return true;
         }
         else
