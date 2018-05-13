@@ -628,6 +628,21 @@ export class BoardComponent implements AfterViewInit, OnInit {
             this.gameBoard.addChild(npc);
         }
     }
+
+    setDifficultyLevel(difficulty: string) {
+        switch (difficulty) {
+            case 'easy':
+                assignDifficultyParams(10, 5, 8000, 400);
+                break;
+            case 'normal':
+                assignDifficultyParams(15, 10, 5000, 250);
+                break;
+            case 'hard':
+                assignDifficultyParams(25, 15, 2000, 175);
+                break;
+            //default keeps preset values
+        }
+    }
 }
 
 class actor extends createjs.Bitmap {
@@ -650,6 +665,12 @@ class actor extends createjs.Bitmap {
 	}
 }
 
+function assignDifficultyParams(npcCount: number, npcAttackPower: number, spawnRate: number, heartbeat: number) {
+    NPC_MAX_COUNT = npcCount;
+    NPC_ATTACK_POWER = npcAttackPower;
+    NPC_HB_SPAWN_RATE = spawnRate;
+    NPC_HB_RATE = heartbeat;
+}
 
 function selectSide(): number {
 	let side: number = Math.floor(Math.random() * 4);
