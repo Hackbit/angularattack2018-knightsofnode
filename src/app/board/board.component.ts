@@ -124,7 +124,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.currentFacingDirection = 3;
 			this.player.x -= 16;
             this.player.currentX -= 16;
-            this.player.scaleX = -1;
+//            this.player.scaleX = -1;
 			this.gameBoard.update();
 		}
 	}
@@ -135,7 +135,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.currentFacingDirection = 1;
 			this.player.x += 16;
             this.player.currentX += 16;
-            this.player.scaleX = 1;
+//            this.player.scaleX = 1;
 			this.gameBoard.update();
 		}
 	}
@@ -164,7 +164,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			if(!RightBoundaryCheck(npc) && this.isMoveLegal(npc.currentX+16, npc.currentY, npc)) {
 				npc.x += 16;
                 npc.currentX += 16;
-                npc.scaleX = -1;
+//                npc.scaleX = -1;
 				npc.previousDirection = direction;
 			}
 		}
@@ -179,7 +179,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX-16, npc.currentY, npc)) {
 				npc.x -= 16;
                 npc.currentX -= 16;
-                npc.scaleX = 1;
+//                npc.scaleX = 1;
 				npc.previousDirection = direction;
 			}
 		}
@@ -242,7 +242,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 		let obstacleArray = Array<actor>();
 		for(let i = 0; i < 75; i++) {
-			let obstacle = new actor(this.boulderSprite);
+            let obstacleSelection = Math.random();
+            let obstacle;
+            if (Math.random() < 0.5) {
+                obstacle = new actor(this.boulderSprite);
+            } else {
+                obstacle = new actor(this.treeSprite);
+            }
 			xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
 			yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
 			obstacle.currentX = xPos;
