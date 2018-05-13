@@ -18,6 +18,10 @@ const NPC_HB_NAME: string = 'npc_heartbeat';
 const PLAYER_HB_NAME: string = 'player_heartbeat';
 const HEALTH_DROP_HB_NAME: string = 'health_drop_heartbeat';
 
+const NPC_HB_RATE: number = 250;
+const PLAYER_HB_RATE: number = 100;
+const HEALTH_DROP_HB_RATE: number = 100;
+
 @Component({
 	template: require("./board.component.html")
 })
@@ -66,7 +70,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	ngOnInit(): void {
-		this.heartbeatService.start(NPC_HB_NAME);
+		this.heartbeatService.start(NPC_HB_NAME, NPC_HB_RATE);
             
         this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
         this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
@@ -344,7 +348,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.npcArray = this.npcArray.filter(actor => actor.actorId !== attackOutcome.victim.actorId);
                 this.gameBoard.removeChild(this.npcArray.find(actor => actor.actorId !== attackOutcome.victim.actorId));
                
-                this.heartbeatService.start(NPC_HB_NAME);
+                this.heartbeatService.start(NPC_HB_NAME, NPC_HB_RATE);
                 this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
                 this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 
@@ -476,7 +480,7 @@ function GetNpcDirection(previousDir: number): number {
 function LeftBoundaryCheck(_actor: actor): boolean {
 	var x = _actor.currentX - 16;
 
-	if((x < _actor.parent.x)) {
+	if((x < 0)) {
 		return true;
 	}
 
@@ -485,9 +489,8 @@ function LeftBoundaryCheck(_actor: actor): boolean {
 
 function RightBoundaryCheck(_actor: actor): boolean {
 	var x = _actor.currentX + 32;
-	var offsetXEdge = BOARD_MAX_X + _actor.parent.x;
 
-	if(x > offsetXEdge) {
+	if(x > BOARD_MAX_X) {
 		return true;
 	}
 
@@ -497,7 +500,7 @@ function RightBoundaryCheck(_actor: actor): boolean {
 function TopBoundaryCheck(_actor: actor): boolean {
 	var y = _actor.currentY - 16;
 
-	if(y < _actor.parent.y) {
+	if(y < 0) {
 		return true;
 	}
 
@@ -506,9 +509,8 @@ function TopBoundaryCheck(_actor: actor): boolean {
 
 function BottomBoundaryCheck(_actor: actor): boolean {
 	var y = _actor.currentY + 32;
-	var offsetYEdge = BOARD_MAX_Y + _actor.parent.y;
 
-	if(y > offsetYEdge) {
+	if(y > BOARD_MAX_Y) {
 		return true;
 	}
 
