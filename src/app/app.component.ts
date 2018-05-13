@@ -10,6 +10,7 @@ import {HeartbeatService} from "./shared/services/heartbeat.service";
 
 export class AppComponent implements OnInit, OnDestroy {
 	heartbeatName: string = "outtatime";
+	navCollapse: boolean = true;
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {}
 
