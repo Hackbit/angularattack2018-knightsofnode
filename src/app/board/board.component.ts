@@ -13,20 +13,21 @@ const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 384;
 const PLAYER_START_Y: number = 208;
 
-
-const NUMBER_OF_OBSTACLES: number = 75;
-const NPC_MAX_COUNT: number = 10;
-const NPC_COUNT: number = 10;
-const NPC_ATTACK_POWER: number = 10;
+// Difficulty Parameters
+let NPC_MAX_COUNT: number = 25;
+let NPC_ATTACK_POWER: number = 15;
+let NPC_HB_SPAWN_RATE: number = 2000;
+let NPC_HB_RATE: number = 175;
 
 const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
-const NPC_HB_SPAWN_RATE: number = 5000;
+const NUMBER_OF_OBSTACLES: number = 75;
+const NPC_COUNT: number = 10;
 
 const NPC_HB_NAME: string = 'npc_heartbeat';
 const PLAYER_HB_NAME: string = 'player_heartbeat';
 const HEALTH_DROP_HB_NAME: string = 'health_drop_heartbeat';
 
-const NPC_HB_RATE: number = 250;
+
 const PLAYER_HB_RATE: number = 100;
 const HEALTH_DROP_HB_RATE: number = 10000;
 
