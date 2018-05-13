@@ -1,12 +1,25 @@
-<div class="row">
-	<div class="progress">
-		<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style.width]="player.health + '%'" [class]="player.getProgressBarColor()">{{ player.health }}%</div>
+<div class="canvasWidth mb-3 row">
+	<div class="col-6">
+		<p><strong>Hero</strong></p>
+		<div class="progress w-100">
+			<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+				  [style.width]="player.health + '%'" [class]="player.getProgressBarColor()">{{ player.health }}%
+			</div>
+		</div>
+	</div>
+	<div class="col-6">
+		<p><strong>Enemy</strong></p>
+		<div class="progress w-100" *ngIf="attacker !== null">
+			<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+				  [style.width]="attacker.health + '%'" [class]="attacker.getProgressBarColor()">{{ attacker.health }}%
+			</div>
+		</div>
 	</div>
 </div>
 <div class="row">
 	<canvas width="768" height="432" id="gameBoard"></canvas>
 </div>
-<div class="row">
+<div class="canvasWidth row">
 	<div *ngIf="criticalHit" class="alert alert-danger" role="alert">
 		<strong>Critical Hit</strong>
 	</div>

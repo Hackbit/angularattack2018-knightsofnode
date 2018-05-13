@@ -36,6 +36,7 @@ const HEALTH_DROP_VALUE: number = 10;
 
 export class BoardComponent implements AfterViewInit, OnInit {
 
+	attacker: actor = null;
 	criticalHit: boolean = false;
 	gameBoard: createjs.Stage;
 	player: actor;
@@ -316,6 +317,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
             
             if(this.wasDamageDone(false))
             {
+            	this.attacker = sender;
+            	window.setTimeout(gameBoard => gameBoard.attacker = null, 3000, this);
                 this.player.health -= sender.attackPower;
                 console.log('Player Hit! -' + sender.attackPower + " HP");
             }
@@ -377,6 +380,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
             console.log('NPC Health: ' + attackOutcome.victim.health);
 		}
+		this.attacker = attackOutcome.victim;
+		window.setTimeout(gameBoard => gameBoard.attacker = null, 3000, this);
     }
     
     isCriticalHit(): boolean

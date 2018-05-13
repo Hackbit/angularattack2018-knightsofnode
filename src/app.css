@@ -1,5 +1,4 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
-.progress {
-	margin-bottom: 1em;
+.canvasWidth {
 	width: 768px;
 }
