@@ -126,7 +126,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthSprite = new Image();
 		this.healthSprite.src = "/images/ethereum.png";
         this.knightSprite = new Image();
-        this.knightSprite.src = "/images/knight-left.png";
+        this.knightSprite.src = "/images/knight-right.png";
         this.treeSprite = new Image();
         this.treeSprite.src = "/images/tree-stump.png";
 	}
@@ -136,7 +136,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
 			this.player.currentFacingDirection = 2;
 			this.player.y += 16;
-			this.player.currentY += 16;
+            this.player.currentY += 16;
 			this.gameBoard.update();
 		}
 	}
@@ -146,7 +146,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
 			this.player.currentFacingDirection = 3;
 			this.player.x -= 16;
-			this.player.currentX -= 16;
+            this.player.currentX -= 16;
+            this.player.scaleX = -1;
 			this.gameBoard.update();
 		}
 	}
@@ -156,7 +157,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
 			this.player.currentFacingDirection = 1;
 			this.player.x += 16;
-			this.player.currentX += 16;
+            this.player.currentX += 16;
+            this.player.scaleX = 1;
 			this.gameBoard.update();
 		}
 	}
