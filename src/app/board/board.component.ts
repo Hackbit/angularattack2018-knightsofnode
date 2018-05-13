@@ -14,10 +14,10 @@ const PLAYER_START_X: number = 384;
 const PLAYER_START_Y: number = 208;
 
 // Difficulty Parameters
-let NPC_MAX_COUNT: number = 25;
-let NPC_ATTACK_POWER: number = 15;
-let NPC_HB_SPAWN_RATE: number = 2000;
-let NPC_HB_RATE: number = 175;
+let NPC_MAX_COUNT: number = 45;
+let NPC_ATTACK_POWER: number = 5;
+let NPC_HB_SPAWN_RATE: number = 8000;
+let NPC_HB_RATE: number = 400;
 
 const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
 const NUMBER_OF_OBSTACLES: number = 75;
@@ -56,10 +56,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
     healthDrop: actor;
 	obstacleArray: Array<actor> = [];
 	boulderSprite: HTMLImageElement;
-	dragonSprite: HTMLImageElement;
+    dragonSprite: HTMLImageElement;
+    redDragonSprite: HTMLImageElement;
 	healthSprite: HTMLImageElement;
-	knightSprite: HTMLImageElement;
+    knightSprite: HTMLImageElement;
     treeSprite: HTMLImageElement;
+    shrubSprite: HTMLImageElement;
     backgroundSprite: HTMLImageElement;
     score: number = 0;
 
@@ -148,12 +150,16 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.boulderSprite.src = "/images/boulder.png";
         this.dragonSprite = new Image();
         this.dragonSprite.src = "/images/dragon-left.png";
+        this.redDragonSprite = new Image();
+        this.redDragonSprite.src = "/images/red-dragon-left.png";
         this.healthSprite = new Image();
 		this.healthSprite.src = "/images/ethereum.png";
         this.knightSprite = new Image();
         this.knightSprite.src = "/images/knight-right.png";
         this.treeSprite = new Image();
         this.treeSprite.src = "/images/tree-stump.png";
+        this.shrubSprite = new Image();
+        this.shrubSprite.src = "/images/shrub.png";
         this.backgroundSprite = new Image();
         this.backgroundSprite.src = "/images/konbackground.png";
 
@@ -319,9 +325,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		for(let i = 0; i < NUMBER_OF_OBSTACLES; i++) {
             let obstacleSelection = Math.random();
             let obstacle;
-            if (Math.random() < 0.5) {
+            if (obstacleSelection < 0.25) {
                 obstacle = new actor(this.boulderSprite);
-            } else {
+            } 
+            else if(obstacleSelection >= 0.25 && obstacleSelection < 0.75 ){
+                obstacle = new actor(this.shrubSprite);
+            }
+            else{
                 obstacle = new actor(this.treeSprite);
             }
             do {
