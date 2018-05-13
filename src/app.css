@@ -36,12 +36,15 @@ kbd {
 }
 
 .splash-difficulty-select {
+	margin-bottom: 8px;
+}
+.splash-difficulty-select-link {
 	background-color: #ce3d49;
 	color: #ffffff;
 	display: flow-root;
 	margin: 0.5em;
 }
-.splash-difficulty-select:hover {
+.splash-difficulty-select-link:hover {
 	background-color: #a53039;
 	color: #ffffff;
 }
@@ -52,4 +55,10 @@ kbd {
 
 .jumbotron-fluid {
 	padding-bottom: 8px;
+}
+
+.tagline-text {
+	font-family: "ArcadeClassic";
+	text-align: center;
+	padding-top: 4px;
 }
