@@ -31,6 +31,10 @@ const HEALTH_DROP_HB_RATE: number = 10000;
 const HEALTH_DROP_VALUE: number = 10;
 
 const NPC_HEALTH_DISPLAY = 5000;
+const SCORE_HIT = 100;
+const SCORE_CRIT = 250;
+const SCORE_KILL = 1000;
+const SCORE_HEALTH = 500;
 
 @Component({
 	template: require("./board.component.html")
@@ -357,11 +361,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.criticalHit = true;
                 window.setTimeout(gameBoard => gameBoard.criticalHit = false, 1000, this);
                 console.log('Critical Hit!');
+                this.score += SCORE_CRIT;
             }
             else
             {
                 attackOutcome.victim.health -= this.player.attackPower;
-                this.score += 100;
+                this.score += SCORE_HIT;
             }
 
             if(attackOutcome.victim.health <= 0)
@@ -380,7 +385,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 
                 this.gameBoard.update();
-                this.score += 1000;
+                this.score += SCORE_KILL;
             }
 
             console.log('NPC Health: ' + attackOutcome.victim.health);
@@ -470,7 +475,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthDrop.x = xPos;
         this.healthDrop.y = yPos;
         this.gameBoard.addChild(this.healthDrop);
-        this.score += 500;
+        this.score += SCORE_HEALTH;
     }
 
     checkHealthPickup(senderX, senderY) {
