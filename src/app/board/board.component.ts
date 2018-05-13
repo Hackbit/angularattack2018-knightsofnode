@@ -199,15 +199,11 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.x += 16;
             this.player.currentX += 16;
             this.player.scaleX = 1;
-<<<<<<< Updated upstream
             if (this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) {
                 this.player.x += 16;
                 this.player.currentX += 16;
                 this.checkHealthPickup(this.player.currentX, this.player.currentY);
             }
-=======
-            this.checkHealthPickup(this.player.currentX, this.player.currentY);
->>>>>>> Stashed changes
 			this.gameBoard.update();
 		}
 	}
