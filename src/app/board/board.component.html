@@ -1,31 +1,34 @@
-<div class="canvasWidth mb-3 row">
-	<div class="col-6">
-		<p><strong>Hero</strong></p>
-		<div class="progress w-100">
-			<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-				  [style.width]="player.health + '%'" [class]="player.getProgressBarColor()">{{ player.health }}%
+<h1 *ngIf="konami; else playGame">ざんねんでした。 なにもないよ~ん!</h1>
+<ng-template #playGame>
+	<div class="canvasWidth mb-3 row">
+		<div class="col-6">
+			<p><strong>Hero</strong></p>
+			<div class="progress w-100">
+				<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+					  [style.width]="player.health + '%'" [class]="player.getProgressBarColor()">{{ player.health }}%
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<p><strong>Enemy</strong></p>
+			<div class="progress w-100" *ngIf="attacker !== null">
+				<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+					  [style.width]="attacker.health + '%'" [class]="attacker.getProgressBarColor()">{{ attacker.health }}%
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-6">
-		<p><strong>Enemy</strong></p>
-		<div class="progress w-100" *ngIf="attacker !== null">
-			<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-				  [style.width]="attacker.health + '%'" [class]="attacker.getProgressBarColor()">{{ attacker.health }}%
+	<div class="row">
+		<canvas width="768" height="432" id="gameBoard"></canvas>
+	</div>
+	<div class="canvasWidth mt-3 row">
+		<div class="col-6">
+			<div *ngIf="criticalHit" class="alert alert-danger" role="alert">
+				<strong>Critical Hit</strong>
 			</div>
 		</div>
-	</div>
-</div>
-<div class="row">
-	<canvas width="768" height="432" id="gameBoard"></canvas>
-</div>
-<div class="canvasWidth mt-3 row">
-	<div class="col-6">
-		<div *ngIf="criticalHit" class="alert alert-danger" role="alert">
-			<strong>Critical Hit</strong>
+		<div class="col-6">
+			<p><strong>Score:</strong> {{ score }}</p>
 		</div>
 	</div>
-	<div class="col-6">
-		<p><strong>Score:</strong> {{ score }}</p>
-	</div>
-</div>
+</ng-template>

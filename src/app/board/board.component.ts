@@ -44,6 +44,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 	attacker: actor = null;
 	criticalHit: boolean = false;
+	konami: boolean = false;
+	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT + ATTACK;
+	moves: string[] = [];
 	gameBoard: createjs.Stage;
 	player: actor;
     npcArray: Array<actor> = [];
@@ -113,6 +116,11 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
 		this.playerControlService.playerAction.subscribe((direction: string) => {
+			this.moves = this.moves.slice(-15);
+			this.moves.push(direction);
+			if(this.moves.join("").indexOf(this.konamiCode) >= 0) {
+				this.konami = true;
+			}
 			switch(direction) {
 				case DOWN:
 					this.down();
