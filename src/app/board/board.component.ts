@@ -29,10 +29,10 @@ const HEALTH_DROP_HB_RATE: number = 100;
 
 export class BoardComponent implements AfterViewInit, OnInit {
 
-	criticalHit: boolean = false;
 	gameBoard: createjs.Stage;
 	player: actor;
-	npcArray: Array<actor> = [];
+    npcArray: Array<actor> = [];
+    healthDrop: actor;
 	obstacleArray: Array<actor> = [];
 	boulderSprite: HTMLImageElement;
 	dragonSprite: HTMLImageElement;
@@ -41,23 +41,21 @@ export class BoardComponent implements AfterViewInit, OnInit {
     treeSprite: HTMLImageElement;
 
 	ngAfterViewInit() {
-        // this.player = new actor(this.knightSprite);
+        this.player = new actor(this.knightSprite);
         this.gameBoard = new createjs.Stage("gameBoard");
         let background = new createjs.Shape();
         background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
         this.gameBoard.addChild(background);
         this.buildObstacleArray();
-        
         this.obstacleArray.forEach((obstacle) => {
             this.gameBoard.addChild(obstacle);
-            obstacle.stageChildIndex = this.gameBoard.children.length-1;
         });
         
         this.initializeNpcArray();
         this.npcArray.forEach((npc) => {
             this.gameBoard.addChild(npc);
-            npc.stageChildIndex = this.gameBoard.children.length-1;
         });
+        console.log(this.npcArray);
         
         this.player.setBounds(PLAYER_START_X, PLAYER_START_Y, 16, 16);
         this.player.currentX = PLAYER_START_X;
@@ -67,7 +65,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.player.actorId = Guid.create();
         this.gameBoard.addChild(this.player);
         this.player.stageChildIndex = this.gameBoard.children.length-1;
-        this.gameBoard.update();    
+        this.healthDrop = new actor(this.healthSprite);
+        this.healthDrop.actorId = Guid.create();
+        this.handleHealthDrop();
+        this.gameBoard.update();
     }
 
 	ngOnInit(): void {
@@ -78,9 +79,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
         this.heartbeatService.start(PLAYER_HB_NAME, PLAYER_HB_RATE);
         this.heartbeatService.getEmitter(PLAYER_HB_NAME).subscribe(this.isPlayerAlive)
-
-        // this.heartbeatService.start(HEALTH_DROP_HB_NAME, HEALTH_DROP_HB_RATE);
-        // this.heartbeatService.getEmitter(HEALTH_DROP_HB_NAME).subscribe();
+        this.heartbeatService.start(HEALTH_DROP_HB_NAME, HEALTH_DROP_HB_RATE);
+        this.heartbeatService.getEmitter(HEALTH_DROP_HB_NAME).subscribe(() => 
+        this.handleHealthDrop());
     }
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
@@ -111,11 +112,11 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthSprite = new Image();
 		this.healthSprite.src = "/images/ethereum.png";
         this.knightSprite = new Image();
-        this.knightSprite.src = "/images/knight-left.png";
+        this.knightSprite.src = "/images/knight-right.png";
         this.treeSprite = new Image();
         this.treeSprite.src = "/images/tree-stump.png";
 
-		this.player = new actor(this.knightSprite);
+        this.player = new actor(this.knightSprite);
 		this.player.health = 100;
 	}
 
@@ -124,7 +125,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
 			this.player.currentFacingDirection = 2;
 			this.player.y += 16;
-			this.player.currentY += 16;
+            this.player.currentY += 16;
 			this.gameBoard.update();
 		}
 	}
@@ -250,7 +251,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             npc.y = yPos;
             npc.health = 100;
             npc.actorId = Guid.create();
-			//npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+            npc.attackPower = NPC_ATTACK_POWER;
 			this.npcArray.push(npc);
 		}
 	}
@@ -261,7 +262,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 		let obstacleArray = Array<actor>();
 		for(let i = 0; i < 75; i++) {
-			let obstacle = new actor(this.boulderSprite);
+            let obstacleSelection = Math.random();
+            let obstacle;
+            if (Math.random() < 0.5) {
+                obstacle = new actor(this.boulderSprite);
+            } else {
+                obstacle = new actor(this.treeSprite);
+            }
 			xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
 			yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
 			obstacle.currentX = xPos;
@@ -338,14 +345,15 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
             if(attackOutcome.victim.health <= 0)
             {
-                this.heartbeatService.stop(NPC_HB_NAME);      
+                this.heartbeatService.stop(NPC_HB_NAME);
                 this.npcArray.find(actor => actor.actorId === attackOutcome.victim.actorId).visible = false;
                 this.gameBoard.update();
 
                 this.gameBoard.removeChild(this.npcArray.find(actor => actor.actorId === attackOutcome.victim.actorId));
                 this.gameBoard.update();
                 this.npcArray = this.npcArray.filter(actor => actor.actorId !== attackOutcome.victim.actorId);
-
+                this.gameBoard.removeChild(this.npcArray.find(actor => actor.actorId !== attackOutcome.victim.actorId));
+               
                 this.heartbeatService.start(NPC_HB_NAME, NPC_HB_RATE);
                 this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
                 this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
@@ -428,6 +436,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
     {
 
     }
+
+    handleHealthDrop() {
+
+    }
 }
 
 class actor extends createjs.Bitmap {
@@ -439,7 +451,7 @@ class actor extends createjs.Bitmap {
     currentY: number;
     actorId: Guid;
 
-	getProgressBarColor(): string {
+    getProgressBarColor(): string {
 		if(this.health > 25) {
 			return("bg-success");
 		} else if(this.health > 10) {
