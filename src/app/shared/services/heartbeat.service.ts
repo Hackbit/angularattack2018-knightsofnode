@@ -9,9 +9,12 @@ export class HeartbeatService {
 		return(heartbeat.emitter);
 	}
 
-	start(name: string): void {
+	start(name: string, interval?: number): void {
+		if(!interval) {
+			interval = 1000;
+		}
 		let heartbeatEmitter = new EventEmitter<string>();
-		let heartbeatId = window.setInterval(() => heartbeatEmitter.emit(name));
+		let heartbeatId = window.setInterval(() => heartbeatEmitter.emit(name), interval);
 		this.heartbeats.push({id: heartbeatId, name: name, emitter: heartbeatEmitter});
 	}
 
