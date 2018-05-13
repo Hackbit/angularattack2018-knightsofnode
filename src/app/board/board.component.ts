@@ -40,7 +40,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
     treeSprite: HTMLImageElement;
 
 	ngAfterViewInit() {
-        this.player = new actor(this.knightSprite);
+        // this.player = new actor(this.knightSprite);
         this.gameBoard = new createjs.Stage("gameBoard");
         let background = new createjs.Shape();
         background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
@@ -106,6 +106,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.knightSprite.src = "/images/knight-right.png";
         this.treeSprite = new Image();
         this.treeSprite.src = "/images/tree-stump.png";
+
+		this.player = new actor(this.knightSprite);
+		this.player.health = 100;
 	}
 
 	down(): void {
@@ -424,6 +427,16 @@ class actor extends createjs.Bitmap {
 	currentX: number;
     currentY: number;
     actorId: Guid;
+
+	getProgressBarColor(): string {
+		if(this.health > 25) {
+			return("bg-success");
+		} else if(this.health > 10) {
+			return("bg-warning");
+		} else {
+			return("bg-danger");
+		}
+	}
 }
 
 

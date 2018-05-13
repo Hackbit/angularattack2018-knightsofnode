@@ -1,1 +1,8 @@
-<canvas width="768" height="432" id="gameBoard"></canvas>
+<div class="row">
+	<div class="progress">
+		<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style.width]="player.health + '%'" [class]="player.getProgressBarColor()">{{ player.health }}%</div>
+	</div>
+</div>
+<div class="row">
+	<canvas width="768" height="432" id="gameBoard"></canvas>
+</div>
