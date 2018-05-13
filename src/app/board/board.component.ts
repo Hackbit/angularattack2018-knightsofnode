@@ -170,7 +170,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			if(!RightBoundaryCheck(npc) && this.isMoveLegal(npc.currentX+16, npc.currentY, npc)) {
 				npc.x += 16;
                 npc.currentX += 16;
-//                npc.scaleX = -1;
+                npc.regX = 16;
+                npc.scaleX = -1;
 				npc.previousDirection = direction;
 			}
 		}
@@ -185,7 +186,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX-16, npc.currentY, npc)) {
 				npc.x -= 16;
                 npc.currentX -= 16;
-//              npc.scaleX = 1;
+                npc.regX = 0;
+                npc.scaleX = 1;
 				npc.previousDirection = direction;
 			}
 		}
