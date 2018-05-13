@@ -23,6 +23,8 @@ const NPC_HB_RATE: number = 250;
 const PLAYER_HB_RATE: number = 100;
 const HEALTH_DROP_HB_RATE: number = 10000;
 
+const HEALTH_DROP_VALUE: number = 10;
+
 @Component({
 	template: require("./board.component.html")
 })
@@ -126,6 +128,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.currentFacingDirection = 2;
 			this.player.y += 16;
             this.player.currentY += 16;
+            this.checkHealthPickup(this.player.currentX, this.player.currentY + 16);
 			this.gameBoard.update();
 		}
 	}
@@ -140,6 +143,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.x -= 16;
             this.player.currentX -= 16;
             this.player.scaleX = -1;
+            this.checkHealthPickup(this.player.currentX - 16, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
@@ -153,7 +157,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.x += 16;
             this.player.currentX += 16;
             this.player.scaleX = 1;
-
+            this.checkHealthPickup(this.player.currentX + 16, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
@@ -163,7 +167,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
 			this.player.currentFacingDirection = 0;
 			this.player.y -= 16;
-			this.player.currentY -= 16;
+            this.player.currentY -= 16;
+            this.checkHealthPickup(this.player.currentX, this.player.currentY - 16);
 			this.gameBoard.update();
 		}
 	}
@@ -446,6 +451,17 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthDrop.x = xPos;
         this.healthDrop.y = yPos;
         this.gameBoard.addChild(this.healthDrop);
+    }
+
+    checkHealthPickup(senderX, senderY) {
+        if(this.healthDrop.currentX === senderX && this.healthDrop.currentY === senderY) {
+            if (this.player.health <= 90) {
+                this.player.health += HEALTH_DROP_VALUE;
+            } else if (this.player.health > 90) {
+                this.player.health = 100;
+            }
+            this.handleHealthDrop();
+        }
     }
 }
 
