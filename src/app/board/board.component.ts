@@ -30,6 +30,8 @@ const HEALTH_DROP_HB_RATE: number = 10000;
 
 const HEALTH_DROP_VALUE: number = 10;
 
+const NPC_HEALTH_DISPLAY = 5000;
+
 @Component({
 	template: require("./board.component.html")
 })
@@ -319,7 +321,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             if(this.wasDamageDone(false))
             {
             	this.attacker = sender;
-            	window.setTimeout(gameBoard => gameBoard.attacker = null, 3000, this);
+            	window.setTimeout(gameBoard => gameBoard.attacker = null, NPC_HEALTH_DISPLAY, this);
                 this.player.health -= sender.attackPower;
                 console.log('Player Hit! -' + sender.attackPower + " HP");
             }
@@ -384,7 +386,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             console.log('NPC Health: ' + attackOutcome.victim.health);
 		}
 		this.attacker = attackOutcome.victim;
-		window.setTimeout(gameBoard => gameBoard.attacker = null, 3000, this);
+		window.setTimeout(gameBoard => gameBoard.attacker = null, NPC_HEALTH_DISPLAY, this);
     }
     
     isCriticalHit(): boolean
