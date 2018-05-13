@@ -30,3 +30,17 @@ kbd {
 #nav-logo {
 	height: 1.5em;
 }
+
+.splash-difficulty-select {
+	background-color: #ce3d49;
+	color: #ffffff;
+	margin: 8px;
+}
+.splash-difficulty-select:hover {
+	background-color: #a53039;
+	color: #ffffff;
+}
+
+.jumbotron-fluid {
+	padding-bottom: 8px;
+}
