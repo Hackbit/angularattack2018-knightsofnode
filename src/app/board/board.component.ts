@@ -13,6 +13,8 @@ const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 384;
 const PLAYER_START_Y: number = 208;
 
+const NUMBER_OF_OBSTACLES: number = 75;
+
 const NPC_MAX_COUNT: number = 10;
 const NPC_COUNT: number = 10;
 const NPC_ATTACK_POWER: number = 5;
@@ -309,7 +311,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		let yPos: number = 208;
 
 		let obstacleArray = Array<actor>();
-		for(let i = 0; i < 75; i++) {
+		for(let i = 0; i < NUMBER_OF_OBSTACLES; i++) {
             let obstacleSelection = Math.random();
             let obstacle;
             if (Math.random() < 0.5) {
