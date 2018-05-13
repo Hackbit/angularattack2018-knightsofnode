@@ -48,16 +48,12 @@ kbd {
 	color: #ffffff;
 }
 
-.splash-image-container {
-	min-height: 512px;
-}
-
 .jumbotron-fluid {
-	padding-bottom: 8px;
+	padding-bottom: 0.5em;
 }
 
 .tagline-text {
 	font-family: "ArcadeClassic";
 	text-align: center;
-	padding-top: 4px;
+	padding-top: 0.25em;
 }
