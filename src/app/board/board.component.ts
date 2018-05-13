@@ -101,7 +101,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthDrop = new actor(this.healthSprite);
         this.healthDrop.actorId = Guid.create();
         this.handleHealthDrop();
+
+        createjs.Ticker.setFPS(30);
         this.gameBoard.update();
+
     }
 
 	ngOnInit(): void {
