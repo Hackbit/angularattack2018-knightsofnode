@@ -13,11 +13,15 @@ const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 384;
 const PLAYER_START_Y: number = 208;
 
+<<<<<<< Updated upstream
 const NUMBER_OF_OBSTACLES: number = 75;
 
 const NPC_MAX_COUNT: number = 10;
+=======
+const NPC_MAX_COUNT: number = 15;
+>>>>>>> Stashed changes
 const NPC_COUNT: number = 10;
-const NPC_ATTACK_POWER: number = 5;
+const NPC_ATTACK_POWER: number = 10;
 
 const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
 const NPC_HB_SPAWN_RATE: number = 5000;
@@ -161,59 +165,60 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	down(): void {
-        if(!BottomBoundaryCheck(this.player)) 
+        if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16)) 
         {
-            this.player.currentFacingDirection = 2;
-            if(this.isMoveLegal(this.player.currentX, this.player.currentY + 16)) {
-                this.player.y += 16;
-                this.player.currentY += 16;
-                this.checkHealthPickup(this.player.currentX, this.player.currentY);
-            }
+			this.player.currentFacingDirection = 2;
+			this.player.y += 16;
+            this.player.currentY += 16;
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
 
 	left(): void {
-        if(!LeftBoundaryCheck(this.player))
+        if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY))
         {
             this.player.currentFacingDirection = 3;
             this.player.regX = 16;
             this.player.regY = 0;
+            
+			this.player.x -= 16;
+            this.player.currentX -= 16;
             this.player.scaleX = -1;
-            if (this.isMoveLegal(this.player.currentX - 16, this.player.currentY)) {
-                this.player.x -= 16;
-                this.player.currentX -= 16;
-                this.checkHealthPickup(this.player.currentX, this.player.currentY);
-            }
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
 
 	right(): void {
-        if(!RightBoundaryCheck(this.player)) 
+        if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) 
         {
             this.player.currentFacingDirection = 1;
             this.player.regX = 0;
             this.player.regY = 0;
+			this.player.x += 16;
+            this.player.currentX += 16;
             this.player.scaleX = 1;
+<<<<<<< Updated upstream
             if (this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) {
                 this.player.x += 16;
                 this.player.currentX += 16;
                 this.checkHealthPickup(this.player.currentX, this.player.currentY);
             }
+=======
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
+>>>>>>> Stashed changes
 			this.gameBoard.update();
 		}
 	}
 
 	up(): void {
-        if(!TopBoundaryCheck(this.player)) 
+        if(!TopBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY - 16)) 
         {
-            this.player.currentFacingDirection = 0;
-            if (this.isMoveLegal(this.player.currentX, this.player.currentY - 16)) {
-                this.player.y -= 16;
-                this.player.currentY -= 16;
-                this.checkHealthPickup(this.player.currentX, this.player.currentY);
-            }
+			this.player.currentFacingDirection = 0;
+			this.player.y -= 16;
+            this.player.currentY -= 16;
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
@@ -223,6 +228,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 		if(direction === 0) {
 			if(!TopBoundaryCheck(npc) && this.isMoveLegal(npc.currentX, npc.currentY-16, npc)) {
+                this.detectNpcProximity(npc.currentX, npc.currentY-16)
 				npc.y -= 16;
 				npc.currentY -= 16;
 				npc.previousDirection = direction;
@@ -230,6 +236,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		}
 		if(direction === 1) {
 			if(!RightBoundaryCheck(npc) && this.isMoveLegal(npc.currentX+16, npc.currentY, npc)) {
+                this.detectNpcProximity(npc.currentX+16, npc.currentY)
 				npc.x += 16;
                 npc.currentX += 16;
                 npc.regX = 16;
@@ -239,6 +246,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		}
 		if(direction === 2) {
 			if(!BottomBoundaryCheck(npc) && this.isMoveLegal(npc.currentX, npc.currentY+16, npc)) {
+                this.detectNpcProximity(npc.currentX, npc.currentY+16)
 				npc.y += 16;
 				npc.currentY += 16;
 				npc.previousDirection = direction;
@@ -246,6 +254,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		}
 		if(direction === 3) {
 			if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX-16, npc.currentY, npc)) {
+                this.detectNpcProximity(npc.currentX-16, npc.currentY)
 				npc.x -= 16;
                 npc.currentX -= 16;
                 npc.regX = 0;
@@ -391,7 +400,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 attackOutcome.victim.health -= this.player.attackPower*2;
                 this.criticalHit = true;
                 window.setTimeout(gameBoard => gameBoard.criticalHit = false, 1000, this);
-                console.log('Critical Hit!');
+                
                 this.score += SCORE_CRIT;
             }
             else
@@ -418,11 +427,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.gameBoard.update();
                 this.score += SCORE_KILL;
             }
-
-            console.log('NPC Health: ' + attackOutcome.victim.health);
 		}
 		this.attacker = attackOutcome.victim;
-		window.setTimeout(gameBoard => gameBoard.attacker = null, NPC_HEALTH_DISPLAY, this);
+		//window.setTimeout(gameBoard => gameBoard.attacker = null, NPC_HEALTH_DISPLAY, this);
     }
     
     isCriticalHit(): boolean
@@ -453,7 +460,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
             return true;
         }
-        else if(!isPlayerAttacking &&  (pdirection >=0 && pdirection <= 65))
+        else if(!isPlayerAttacking &&  (pdirection >=0 && pdirection <= 60))
         {
             return true;
         }
@@ -543,13 +550,22 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 
 
+    detectNpcProximity(xPos, yPos)
+    {
+        var result = new attackResult();
+        result.hit = false;
+        result.victim = null;
+        
+        if(this.npcArray && this.npcArray.length > 0) {
+            this.npcArray.forEach((npc) => {
 
-
-
-
-
-
-
+                if(npc.currentX === xPos && npc.currentY === yPos) 
+                {
+                    window.setTimeout(gameBoard => gameBoard.attacker = null, NPC_HEALTH_DISPLAY, this);
+                }
+            });
+        }   
+    }
 
     spawnNPC()
     {
