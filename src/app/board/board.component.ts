@@ -21,7 +21,7 @@ const HEALTH_DROP_HB_NAME: string = 'health_drop_heartbeat';
 
 const NPC_HB_RATE: number = 250;
 const PLAYER_HB_RATE: number = 100;
-const HEALTH_DROP_HB_RATE: number = 100;
+const HEALTH_DROP_HB_RATE: number = 10000;
 
 @Component({
 	template: require("./board.component.html")
@@ -438,7 +438,14 @@ export class BoardComponent implements AfterViewInit, OnInit {
     }
 
     handleHealthDrop() {
-
+        let xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+        let yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+        this.healthDrop.currentX = xPos;
+        this.healthDrop.currentY = yPos;
+        this.healthDrop.setBounds(xPos, yPos, 16, 16);
+        this.healthDrop.x = xPos;
+        this.healthDrop.y = yPos;
+        this.gameBoard.addChild(this.healthDrop);
     }
 }
 
