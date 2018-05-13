@@ -578,14 +578,29 @@ export class BoardComponent implements AfterViewInit, OnInit {
         let dirMin: number = 0;
         let dirMax: number = 4;
     
-        var randNum = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
+        var randNum = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;   
+        var redDragonProb = Math.random();
 
         if(this.npcArray.length<NPC_MAX_COUNT && (randNum === 2 || randNum === 3))
-        {
+        { 
             let xPos: number;
             let yPos: number;
             let isLegal: boolean;
-            let npc = new actor(this.dragonSprite);
+            let npc;
+
+            if(redDragonProb >= .89)
+            {
+                npc = new actor(this.redDragonSprite);
+                npc.health = 250;       
+                npc.attackPower = NPC_ATTACK_POWER*2;
+            }
+            else
+            {
+                npc = new actor(this.dragonSprite);
+                npc.health = 100;
+                npc.attackPower = NPC_ATTACK_POWER;
+            }
+
             let side = selectSide();
             isLegal = false;
             switch(side) {
@@ -621,9 +636,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             npc.setBounds(xPos, yPos, 16, 16);
             npc.x = xPos;
             npc.y = yPos;
-            npc.health = 100;
             npc.actorId = Guid.create();
-            npc.attackPower = NPC_ATTACK_POWER;
             this.npcArray.push(npc);
             this.gameBoard.addChild(npc);
         }
