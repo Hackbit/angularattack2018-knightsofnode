@@ -7,13 +7,6 @@
 	font-weight: normal;
 }
 
-@font-face {
-	font-family: "Game-Over";
-	src: url("../fonts/gameover.woff"), url("../fonts/gameover.woff2");
-	font-style: normal;
-	font-weight: normal;
-}
-
 .canvas-width {
 	width: 768px;
 }
