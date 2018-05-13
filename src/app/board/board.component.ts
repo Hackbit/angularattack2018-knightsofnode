@@ -69,8 +69,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
         background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
 
         //these two lines are for textured background
-        // let background = new createjs.Bitmap(this.backgroundSprite);
-        // background.setBounds(0, 0, 768, 432);
+        //let background = new createjs.Bitmap(this.backgroundSprite);
+        //background.setBounds(0, 0, 768, 432);
         
         this.gameBoard.addChild(background);
         this.buildObstacleArray();
@@ -317,8 +317,11 @@ export class BoardComponent implements AfterViewInit, OnInit {
             } else {
                 obstacle = new actor(this.treeSprite);
             }
-			xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-			yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+            do {
+                xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+            } while (this.isMoveLegal(xPos, yPos) == false);
+
 			obstacle.currentX = xPos;
             obstacle.currentY = yPos;
             obstacle.setBounds(xPos, yPos, 16, 16);
