@@ -10,8 +10,8 @@ const BOARD_MAX_X: number = 768;
 const BOARD_MAX_Y: number = 432;
 const X_GRID_POSITIONS: number = (BOARD_MAX_X / 16);
 const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
-const PLAYER_START_X: number = 0;
-const PLAYER_START_Y: number = 0;
+const PLAYER_START_X: number = 384;
+const PLAYER_START_Y: number = 208;
 
 const NPC_MAX_COUNT: number = 10;
 const NPC_COUNT: number = 10;
@@ -82,9 +82,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.npcArray.forEach((npc) => {
             this.gameBoard.addChild(npc);
         });
-        console.log(this.npcArray);
         
         this.player.setBounds(PLAYER_START_X, PLAYER_START_Y, 16, 16);
+        this.player.x = PLAYER_START_X;
+        this.player.y = PLAYER_START_Y;
         this.player.currentX = PLAYER_START_X;
         this.player.currentY = PLAYER_START_Y;
         this.player.attackPower = 10;
