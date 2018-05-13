@@ -509,7 +509,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
     
     isPlayerAlive()
     {
-        if(this.player.health === 0 )
+        if(this.player.health <= 0 )
         {
             this.gameOver();
         }
