@@ -1,7 +1,7 @@
 <div *ngIf="konami; else playGame">
 	<h1>ざんねんでした。 なにもないよ~ん!</h1>
 	<p>
-		<img src="/images/konami.jpg" alt="A true warrior does not cheat" />
+		<img src="/images/konami.jpg" alt="A true warrior does not cheat"/>
 	</p>
 </div>
 <ng-template #playGame>
@@ -62,5 +62,21 @@
 				<button class="btn btn-lg btn-danger" (click)="attack()"><i class="fas fa-times-circle"></i></button>
 			</div>
 		</div>
+	</div>
+	<div class="canvas-width row">
+		<button class="btn btn-primary btn-lg">Set Difficulty</button>
+	</div>
+	<div>
+		<form class="form-inline">
+			<div class="form-check-inline">
+				<input id="easy" class="form-control" name="difficulty" type="radio" value="easy"/>&nbsp;
+				<label for="easy"><i class="fab fa-js"></i>&nbsp; Easy</label>&nbsp;
+				<input id="normal" class="form-control" name="difficulty" type="radio" value="normal"/>&nbsp;
+				<label for="normal"><i class="fab fa-angular"></i>&nbsp; Normal</label>&nbsp;
+				<input id="hard" class="form-control" name="difficulty" type="radio" value="hard"/>&nbsp;
+				<label for="hard"><i class="fab fa-react"></i>&nbsp; Hard</label>
+			</div>
+			<button class="btn btn-primary" type="submit">Make it So</button>
+		</form>
 	</div>
 </ng-template>
