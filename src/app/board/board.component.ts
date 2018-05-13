@@ -107,7 +107,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		});
 		this.healthSprite = new createjs.SpriteSheet({
 			images: [
-				"/images/health.svg"
+				"/images/ethereum.svg"
 			],
 			frames: {
 				height: 16,
