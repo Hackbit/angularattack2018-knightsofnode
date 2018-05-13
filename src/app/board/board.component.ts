@@ -1,7 +1,7 @@
 import {Component, HostListener, AfterViewInit, OnInit} from "@angular/core";
 import * as createjs from 'createjs-module';
 import {WindowSizeService} from "../shared/services/window.size.service";
-import {PlayerControlService} from "../shared/services/player.control.service";
+import {PlayerControlService, ATTACK} from "../shared/services/player.control.service";
 import {LEFT, RIGHT, UP, DOWN} from "../shared/services/player.control.service";
 import {HeartbeatService} from "../shared/services/heartbeat.service";
 
@@ -51,16 +51,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		this.player.currentY = PLAYER_START_Y;
 		this.player.attackPower = 10;
 		this.player.health = 100;
-		this.player.regX = 8;
-		this.player.regY = 8;
 
 		this.gameBoard.addChild(this.player);
-
 		this.gameBoard.update();
-		//console.log(this.gameBoard);
-
-		//createjs.Ticker.setFPS(60);
-
 	}
 
 	ngOnInit(): void {
@@ -82,7 +75,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
 					break;
 				case UP:
 					this.up();
-					break;
+                    break;
+                case ATTACK:
+                    this.attack();
+                    break;
 			}
 		});
 
@@ -99,11 +95,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	down(): void {
-		// TODO - This is for NPC, replace with player control.
-		if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16)) {
-			// TODO - Remove when sprites are added
-			this.player.rotation = 180;
-
+        if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16)) 
+        {
 			this.player.currentFacingDirection = 2;
 			this.player.y += 16;
 			this.player.currentY += 16;
@@ -112,10 +105,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	left(): void {
-		if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY)) {
-			// TODO - Remove when sprites are added
-			this.player.rotation = 270;
-
+        if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY))
+        {
 			this.player.currentFacingDirection = 3;
 			this.player.x -= 16;
 			this.player.currentX -= 16;
@@ -124,10 +115,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	right(): void {
-		if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) {
-			// TODO - Remove when sprites are added
-			this.player.rotation = 90;
-
+        if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) 
+        {
 			this.player.currentFacingDirection = 1;
 			this.player.x += 16;
 			this.player.currentX += 16;
@@ -136,10 +125,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	up(): void {
-		if(!TopBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY - 16)) {
-			// TODO - Remove when sprites are added
-			this.player.rotation = 0;
-
+        if(!TopBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY - 16)) 
+        {
 			this.player.currentFacingDirection = 0;
 			this.player.y -= 16;
 			this.player.currentY -= 16;
@@ -227,7 +214,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		}
 	}
 
-
 	buildObstacleArray(): void {
 		let xPos: number = 384;
 		let yPos: number = 208;
@@ -278,41 +264,91 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			attackOutcome = this.detectHit(attackX + 16, attackY)
 		}
 		if(this.player.currentFacingDirection === 2) {
-			attackOutcome = this.detectHit(attackX, attackY - 16)
+			attackOutcome = this.detectHit(attackX, attackY + 16)
 		}
 		if(this.player.currentFacingDirection === 3) {
-			attackOutcome = this.detectHit(attackX + 16, attackY)
+			attackOutcome = this.detectHit(attackX - 16, attackY)
 		}
 
-		if(attackOutcome.hit === true) {
-			attackOutcome.victim.health -= this.player.attackPower;
-		}
-	}
+        if(attackOutcome.hit === true && this.wasDamageDone(true)) 
+        {
+            if(this.isCriticalHit())
+            {
+                attackOutcome.victim.health -= this.player.attackPower*2;
+                console.log('Critical Hit!');
+            }
+            else
+            {
+                attackOutcome.victim.health -= this.player.attackPower;
+            }
 
-	detectHit(xPos, yPos): attackResult {
+            if(attackOutcome.victim.health <= 0)
+            {
+                
+            }
+
+            console.log('NPC Health: ' + attackOutcome.victim.health);
+		}
+    }
+    
+    isCriticalHit(): boolean
+    {
+        let dirMin: number = 0;
+        let dirMax: number = 20;
+    
+        var randomNum = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
+
+        if(randomNum >= 15 && randomNum <= 19 )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    wasDamageDone(isPlayerAttacking: boolean): boolean
+    {
+        let dirMin: number = 0;
+        let dirMax: number = 4;
+    
+        var pdirection = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
+
+        if(isPlayerAttacking && (pdirection === 1 || pdirection === 2 || pdirection === 3))
+        {
+            return true;
+        }
+        else if(!isPlayerAttacking && (pdirection === 0 ))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    detectHit(xPos, yPos): attackResult
+    {
 		var result = new attackResult();
-		result.hit = true;
+		result.hit = false;
 		result.victim = null;
-
-		this.obstacleArray.forEach((obstacle) => {
-			if(obstacle.currentX === xPos && obstacle.currentY === yPos) {
-				result.hit = false;
-				result.victim = obstacle;
-			}
-		});
+        
 
 		if(this.npcArray && this.npcArray.length > 0) {
 			this.npcArray.forEach((npc) => {
-				if(npc.currentX === xPos && npc.currentY === yPos) {
-					result.hit = false;
-					result.victim = npc;
+
+                if(npc.currentX === xPos && npc.currentY === yPos) 
+                {
+					result.hit = true;
+                    result.victim = npc;
 				}
 			});
 		}
 
 		return result;
 	}
-
 }
 
 class actor extends createjs.Shape {
@@ -321,8 +357,10 @@ class actor extends createjs.Shape {
 	previousDirection: number;
 	currentFacingDirection: number;
 	currentX: number;
-	currentY: number;
+    currentY: number;
+    id: number;
 }
+
 
 function selectSide(): number {
 	let side: number = Math.floor(Math.random() * 4);
@@ -331,7 +369,7 @@ function selectSide(): number {
 
 class attackResult {
 	hit: boolean;
-	victim: actor;
+    victim: actor;
 }
 
 

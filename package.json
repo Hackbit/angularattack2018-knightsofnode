@@ -39,7 +39,8 @@
 		"core-js": "^2.5.5",
 		"createjs-module": "^0.8.3",
 		"rxjs": "^6.1.0",
-		"zone.js": "^0.8.26"
+		"zone.js": "^0.8.26",
+		"guid-typescript": "1.0.7"
 	},
 	"devDependencies": {
 		"@fortawesome/fontawesome": "^1.1.7",
