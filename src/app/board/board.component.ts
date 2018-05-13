@@ -448,13 +448,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
     
     isCriticalHit(): boolean
     {
-        let dirMin: number = 0;
-        let dirMax: number = 20;
-    
-        var randomNum = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
+        var randomNum = Math.random();
 
-        if(randomNum >= 15 && randomNum <= 19 )
-        {
+        if(randomNum < 4 )        {
             return true;
         }
         else
