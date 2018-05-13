@@ -3,6 +3,22 @@
 	width: 768px;
 }
 
+kbd {
+	padding-top: 0.1em;
+	padding-right: 0.6em;
+	border: 1px solid #cccccc;
+	font-family: sans-serif;
+	background-color: #f7f7f7;
+	color: #333333;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 2px white inset;
+	border-radius: 3px;
+	display: inline-block;
+	margin-bottom: 0.1em;
+	text-shadow: 0 1px 0 white;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
 #nav-logo {
 	height: 1.5em;
 }
