@@ -13,13 +13,9 @@ const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 384;
 const PLAYER_START_Y: number = 208;
 
-<<<<<<< Updated upstream
-const NUMBER_OF_OBSTACLES: number = 75;
 
+const NUMBER_OF_OBSTACLES: number = 75;
 const NPC_MAX_COUNT: number = 10;
-=======
-const NPC_MAX_COUNT: number = 15;
->>>>>>> Stashed changes
 const NPC_COUNT: number = 10;
 const NPC_ATTACK_POWER: number = 10;
 
