@@ -475,7 +475,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthDrop.x = xPos;
         this.healthDrop.y = yPos;
         this.gameBoard.addChild(this.healthDrop);
-        this.score += SCORE_HEALTH;
     }
 
     checkHealthPickup(senderX, senderY) {
@@ -485,6 +484,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             } else if (this.player.health > 90) {
                 this.player.health = 100;
             }
+            this.score += SCORE_HEALTH;
             this.handleHealthDrop();
         }
     }
