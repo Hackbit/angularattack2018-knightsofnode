@@ -121,10 +121,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	left(): void {
         if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY))
         {
-			this.player.currentFacingDirection = 3;
+            this.player.currentFacingDirection = 3;
+            this.player.regX = 16;
+            this.player.regY = 0;
+            
 			this.player.x -= 16;
             this.player.currentX -= 16;
-//            this.player.scaleX = -1;
+            this.player.scaleX = -1;
 			this.gameBoard.update();
 		}
 	}
@@ -132,10 +135,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	right(): void {
         if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) 
         {
-			this.player.currentFacingDirection = 1;
+            this.player.currentFacingDirection = 1;
+            this.player.regX = 0;
+            this.player.regY = 0;
 			this.player.x += 16;
             this.player.currentX += 16;
-//            this.player.scaleX = 1;
+            this.player.scaleX = 1;
+
 			this.gameBoard.update();
 		}
 	}
@@ -179,7 +185,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX-16, npc.currentY, npc)) {
 				npc.x -= 16;
                 npc.currentX -= 16;
-//                npc.scaleX = 1;
+//              npc.scaleX = 1;
 				npc.previousDirection = direction;
 			}
 		}
@@ -256,7 +262,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
             obstacle.setBounds(xPos, yPos, 16, 16);
             obstacle.x = xPos;
             obstacle.y = yPos;
-			//obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
 			this.obstacleArray.push(obstacle);
 		}
 	}
