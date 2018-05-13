@@ -54,13 +54,21 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	healthSprite: HTMLImageElement;
 	knightSprite: HTMLImageElement;
     treeSprite: HTMLImageElement;
+    backgroundSprite: HTMLImageElement;
     score: number = 0;
 
 	ngAfterViewInit() {
         this.player = new actor(this.knightSprite);
         this.gameBoard = new createjs.Stage("gameBoard");
+        
+        //these two lines are for plain green background
         let background = new createjs.Shape();
         background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
+
+        //these two lines are for textured background
+        // let background = new createjs.Bitmap(this.backgroundSprite);
+        // background.setBounds(0, 0, 768, 432);
+        
         this.gameBoard.addChild(background);
         this.buildObstacleArray();
         this.obstacleArray.forEach((obstacle) => {
@@ -134,6 +142,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.knightSprite.src = "/images/knight-right.png";
         this.treeSprite = new Image();
         this.treeSprite.src = "/images/tree-stump.png";
+        this.backgroundSprite = new Image();
+        this.backgroundSprite.src = "/images/konbackground.png";
 
         this.player = new actor(this.knightSprite);
 		this.player.health = 100;
