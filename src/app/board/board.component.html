@@ -1,4 +1,9 @@
-<h1 *ngIf="konami; else playGame">ざんねんでした。 なにもないよ~ん!</h1>
+<div *ngIf="konami; else playGame">
+	<h1>ざんねんでした。 なにもないよ~ん!</h1>
+	<p>
+		<img src="/images/konami.jpg" alt="A true warrior does not cheat" />
+	</p>
+</div>
 <ng-template #playGame>
 	<div class="canvasWidth mb-3 row">
 		<div class="col-6">
