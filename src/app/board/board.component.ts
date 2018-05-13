@@ -15,7 +15,7 @@ const PLAYER_START_Y: number = 0;
 
 const NPC_MAX_COUNT: number = 10;
 const NPC_COUNT: number = 10;
-const NPC_ATTACK_POWER: number = 2.5;
+const NPC_ATTACK_POWER: number = 5;
 
 const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
 const NPC_HB_SPAWN_RATE: number = 5000;
@@ -421,15 +421,15 @@ export class BoardComponent implements AfterViewInit, OnInit {
     wasDamageDone(isPlayerAttacking: boolean): boolean
     {
         let dirMin: number = 0;
-        let dirMax: number = 4;
+        let dirMax: number = 100;
     
         var pdirection = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
 
-        if(isPlayerAttacking && (pdirection === 1 || pdirection === 2 || pdirection === 3))
+        if(isPlayerAttacking && (pdirection >=25 && pdirection <= 99))
         {
             return true;
         }
-        else if(!isPlayerAttacking && (pdirection === 0 || pdirection === 2))
+        else if(!isPlayerAttacking &&  (pdirection >=0 && pdirection <= 65))
         {
             return true;
         }
@@ -470,7 +470,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
     gameOver()
     {
-
+        console.log('GAME OVER!');
     }
 
     handleHealthDrop() {
