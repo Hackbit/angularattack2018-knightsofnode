@@ -17,8 +17,8 @@
 		<div class="col-6">
 			<p><strong>Enemy</strong></p>
 			<div class="progress w-100" *ngIf="attacker !== null">
-				<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-					  [style.width]="attacker.health + '%'" [class]="attacker.getProgressBarColor()">{{ attacker.health }}%
+				<div class="progress-bar" role="progressbar" aria-valuemin="0" [attr.aria-valuemax]="attacker.maxHealth"
+					  [style.width]="(attacker.health / attacker.maxHealth) * 100 + '%'" [class]="attacker.getProgressBarColor()">{{ (attacker.health / attacker.maxHealth) * 100 }}%
 				</div>
 			</div>
 		</div>
