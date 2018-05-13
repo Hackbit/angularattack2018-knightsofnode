@@ -1,12 +1,11 @@
 import {Component, HostListener, AfterViewInit, OnInit} from "@angular/core";
-import {FormControl, FormGroup} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 import * as createjs from 'createjs-module';
 import {WindowSizeService} from "../shared/services/window.size.service";
 import {PlayerControlService, ATTACK} from "../shared/services/player.control.service";
 import {LEFT, RIGHT, UP, DOWN} from "../shared/services/player.control.service";
 import {HeartbeatService} from "../shared/services/heartbeat.service";
 import {Guid} from 'guid-typescript';
-import {ActivatedRoute} from "@angular/router";
 
 const BOARD_MAX_X: number = 768;
 const BOARD_MAX_Y: number = 432;
@@ -49,7 +48,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	attacker: actor = null;
 	criticalHit: boolean = false;
 	difficultyCollapse: boolean = true;
-	difficultyForm = new FormGroup({difficulty: new FormControl()});
 	konami: boolean = false;
 	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT + ATTACK;
 	moves: string[] = [];
@@ -108,9 +106,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 	ngOnInit(): void {
 		let allowedDifficulties = ["easy", "normal", "hard"];
-		let difficutly = this.route.snapshot.params.difficutly;
-		if(allowedDifficulties.findIndex(value => value === difficutly) >= 0) {
-			this.setDifficultyLevel(difficutly);
+		let difficulty = this.route.snapshot.params.difficulty;
+		if(allowedDifficulties.findIndex(value => value === difficulty) >= 0) {
+			this.setDifficultyLevel(difficulty);
 		}
 
 		this.heartbeatService.start(NPC_HB_NAME, NPC_HB_RATE);
