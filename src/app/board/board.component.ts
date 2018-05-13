@@ -195,9 +195,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
             this.player.regY = 0;
             this.player.scaleX = 1;
             if (this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) {
-                this.checkHealthPickup(this.player.currentX, this.player.currentY);
                 this.player.x += 16;
                 this.player.currentX += 16;
+                this.checkHealthPickup(this.player.currentX, this.player.currentY);
             }
 			this.gameBoard.update();
 		}
