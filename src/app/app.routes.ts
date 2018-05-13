@@ -8,7 +8,7 @@ import {PlayerControlService} from "./shared/services/player.control.service";
 import {HeartbeatService} from "./shared/services/heartbeat.service";
 
 
-export const allAppComponents = [BoardComponent, SplashComponent];
+export const allAppComponents = [BoardComponent, RulesComponent, SplashComponent];
 
 export const routes: Routes = [
 	{path: "board", component: BoardComponent},
