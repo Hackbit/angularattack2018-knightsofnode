@@ -140,52 +140,59 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	down(): void {
-        if(!BottomBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY + 16)) 
+        if(!BottomBoundaryCheck(this.player)) 
         {
-			this.player.currentFacingDirection = 2;
-			this.player.y += 16;
-            this.player.currentY += 16;
-            this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            this.player.currentFacingDirection = 2;
+            if(this.isMoveLegal(this.player.currentX, this.player.currentY + 16)) {
+                this.player.y += 16;
+                this.player.currentY += 16;
+                this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            }
 			this.gameBoard.update();
 		}
 	}
 
 	left(): void {
-        if(!LeftBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX - 16, this.player.currentY))
+        if(!LeftBoundaryCheck(this.player))
         {
             this.player.currentFacingDirection = 3;
             this.player.regX = 16;
             this.player.regY = 0;
-            
-			this.player.x -= 16;
-            this.player.currentX -= 16;
             this.player.scaleX = -1;
-            this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            if (this.isMoveLegal(this.player.currentX - 16, this.player.currentY)) {
+                this.player.x -= 16;
+                this.player.currentX -= 16;
+                this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            }
 			this.gameBoard.update();
 		}
 	}
 
 	right(): void {
-        if(!RightBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) 
+        if(!RightBoundaryCheck(this.player)) 
         {
             this.player.currentFacingDirection = 1;
             this.player.regX = 0;
             this.player.regY = 0;
-			this.player.x += 16;
-            this.player.currentX += 16;
             this.player.scaleX = 1;
-            this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            if (this.isMoveLegal(this.player.currentX + 16, this.player.currentY)) {
+                this.checkHealthPickup(this.player.currentX, this.player.currentY);
+                this.player.x += 16;
+                this.player.currentX += 16;
+            }
 			this.gameBoard.update();
 		}
 	}
 
 	up(): void {
-        if(!TopBoundaryCheck(this.player) && this.isMoveLegal(this.player.currentX, this.player.currentY - 16)) 
+        if(!TopBoundaryCheck(this.player)) 
         {
-			this.player.currentFacingDirection = 0;
-			this.player.y -= 16;
-            this.player.currentY -= 16;
-            this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            this.player.currentFacingDirection = 0;
+            if (this.isMoveLegal(this.player.currentX, this.player.currentY - 16)) {
+                this.player.y -= 16;
+                this.player.currentY -= 16;
+                this.checkHealthPickup(this.player.currentX, this.player.currentY);
+            }
 			this.gameBoard.update();
 		}
 	}
