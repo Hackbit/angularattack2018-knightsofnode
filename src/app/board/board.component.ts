@@ -12,7 +12,8 @@ const X_GRID_POSITIONS: number = (BOARD_MAX_X / 16);
 const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 0;
 const PLAYER_START_Y: number = 0;
-const NPC_COUNT: number = 25;
+const NPC_COUNT: number = 10;
+const NPC_ATTACK_POWER: number = 2.5;
 
 const NPC_HB_NAME: string = 'npc_heartbeat';
 const PLAYER_HB_NAME: string = 'player_heartbeat';
@@ -39,7 +40,24 @@ export class BoardComponent implements AfterViewInit, OnInit {
     treeSprite: HTMLImageElement;
 
 	ngAfterViewInit() {
+<<<<<<< Updated upstream
 		this.player = new actor(this.knightSprite);
+=======
+        this.player = new actor();
+        this.player.graphics.beginFill("DeepSkyBlue").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 16)
+        .beginFill("black").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 2);
+        this.player.x = PLAYER_START_X;
+        this.player.currentX = PLAYER_START_X;
+        this.player.y = PLAYER_START_Y;
+        this.player.currentY = PLAYER_START_Y;
+        this.player.attackPower = 10;
+        this.player.health = 100;
+        this.player.actorId = Guid.create();
+        this.heartbeatService.start(PLAYER_HB_NAME, PLAYER_HB_RATE);
+        this.heartbeatService.getEmitter(PLAYER_HB_NAME).subscribe();
+        this.gameBoard.addChild(this.player);
+
+>>>>>>> Stashed changes
 		this.gameBoard = new createjs.Stage("gameBoard");
 		let background = new createjs.Shape();
 		background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
@@ -54,6 +72,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		this.npcArray.forEach((npc) => {
 			this.gameBoard.addChild(npc);
 		});
+<<<<<<< Updated upstream
 		console.log(this.npcArray);
         
         this.player.setBounds(PLAYER_START_X, PLAYER_START_Y, 16, 16);
@@ -66,6 +85,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.player.actorId = Guid.create();
 		this.gameBoard.addChild(this.player);
         this.gameBoard.update();
+=======
+
+		this.gameBoard.update();
+>>>>>>> Stashed changes
 	}
 
 	ngOnInit(): void {
@@ -73,7 +96,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             
         this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
         this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
-	}
+    }
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
 		this.playerControlService.playerAction.subscribe((direction: string) => {
@@ -152,28 +175,28 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		var direction = GetNpcDirection(npc.previousDirection);
 
 		if(direction === 0) {
-			if(!TopBoundaryCheck(npc) && this.isMoveLegal(npc.currentX, npc.currentY - 16)) {
+			if(!TopBoundaryCheck(npc) && this.isMoveLegal(npc.currentX, npc.currentY-16, npc)) {
 				npc.y -= 16;
 				npc.currentY -= 16;
 				npc.previousDirection = direction;
 			}
 		}
 		if(direction === 1) {
-			if(!RightBoundaryCheck(npc) && this.isMoveLegal(npc.currentX + 16, npc.currentY)) {
+			if(!RightBoundaryCheck(npc) && this.isMoveLegal(npc.currentX+16, npc.currentY, npc)) {
 				npc.x += 16;
 				npc.currentX += 16;
 				npc.previousDirection = direction;
 			}
 		}
 		if(direction === 2) {
-			if(!BottomBoundaryCheck(npc) && this.isMoveLegal(npc.currentX, npc.currentY + 16)) {
+			if(!BottomBoundaryCheck(npc) && this.isMoveLegal(npc.currentX, npc.currentY+16, npc)) {
 				npc.y += 16;
 				npc.currentY += 16;
 				npc.previousDirection = direction;
 			}
 		}
 		if(direction === 3) {
-			if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX - 16, npc.currentY)) {
+			if(!LeftBoundaryCheck(npc) && this.isMoveLegal(npc.currentX-16, npc.currentY, npc)) {
 				npc.x -= 16;
 				npc.currentX -= 16;
 				npc.previousDirection = direction;
@@ -227,7 +250,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
             npc.y = yPos;
             npc.health = 100;
             npc.actorId = Guid.create();
+<<<<<<< Updated upstream
 			//npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+=======
+            npc.attackPower = NPC_ATTACK_POWER;
+			npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+>>>>>>> Stashed changes
 			this.npcArray.push(npc);
 		}
 	}
@@ -251,31 +279,34 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		}
 	}
 
-	isMoveLegal(xPos, yPos): boolean {
-        let value: boolean = true;
+	isMoveLegal(senderX, senderY, sender?: actor): boolean {
+        let collision: boolean = true;
                 
 		this.obstacleArray.forEach((obstacle) => {
-			if(obstacle.currentX === xPos && obstacle.currentY === yPos) {
-				value = false;
+			if(obstacle.currentX === senderX && obstacle.currentY === senderY) {
+				collision = false;
 			}
 		});
 
 		if(this.npcArray && this.npcArray.length > 0) {
 			this.npcArray.forEach((npc) => {
-				if(npc.currentX === xPos && npc.currentY === yPos) {
-                    value = false;
-                    
-                    if(this.wasDamageDone(false))
-                    {
-                        this.player.health -= npc.attackPower;
-                    }
+				if(npc.currentX === senderX && npc.currentY === senderY) {
+                    collision = false;
 				}
 			});
-		}
-		if(this.player.currentX === xPos && this.player.currentY === yPos) {
-			value = false;
-		}
-		return value;
+        }
+        
+		if(this.player.currentX === senderX && this.player.currentY === senderY) {
+            collision = false;
+            
+            if(this.wasDamageDone(false))
+            {
+                this.player.health -= sender.attackPower;
+                console.log('Player Hit! -' + sender.attackPower + " HP");
+            }
+        }
+        
+		return collision;
 	}
 
 
@@ -354,7 +385,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
             return true;
         }
-        else if(!isPlayerAttacking && (pdirection === 0 ))
+        else if(!isPlayerAttacking && (pdirection === 0 || pdirection === 2))
         {
             return true;
         }
@@ -383,7 +414,17 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		}
 
 		return result;
-	}
+    }
+    
+    isPlayerAlive(player: actor)
+    {
+        
+    }
+
+    gameOver()
+    {
+
+    }
 }
 
 class actor extends createjs.Bitmap {
