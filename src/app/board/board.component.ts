@@ -48,6 +48,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	healthSprite: HTMLImageElement;
 	knightSprite: HTMLImageElement;
     treeSprite: HTMLImageElement;
+    score: number = 0;
 
 	ngAfterViewInit() {
         this.player = new actor(this.knightSprite);
@@ -358,6 +359,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             else
             {
                 attackOutcome.victim.health -= this.player.attackPower;
+                this.score += 100;
             }
 
             if(attackOutcome.victim.health <= 0)
@@ -376,6 +378,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 
                 this.gameBoard.update();
+                this.score += 1000;
             }
 
             console.log('NPC Health: ' + attackOutcome.victim.health);
@@ -465,6 +468,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.healthDrop.x = xPos;
         this.healthDrop.y = yPos;
         this.gameBoard.addChild(this.healthDrop);
+        this.score += 500;
     }
 
     checkHealthPickup(senderX, senderY) {
