@@ -23,7 +23,11 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	player: actor;
 	npcArray: Array<actor> = [];
 	obstacleArray: Array<actor> = [];
+	boulderSprite: createjs.SpriteSheet = null;
+	dragonSprite: createjs.SpriteSheet = null;
+	healthSprite: createjs.SpriteSheet = null;
 	knightSprite: createjs.SpriteSheet = null;
+	treeSprite: createjs.SpriteSheet = null;
 
 	ngAfterViewInit() {
 		this.player = new actor();
@@ -82,10 +86,47 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			}
 		});
 
+		this.boulderSprite = new createjs.SpriteSheet({
+			images: [
+				"/images/boulder.svg"
+			],
+			frames: {
+				height: 16,
+				width: 16
+			}
+		});
+		this.dragonSprite = new createjs.SpriteSheet({
+			images: [
+				"/images/dragon-left.svg",
+				"/images/dragon-right.svg"
+			],
+			frames: {
+				height: 16,
+				width: 16
+			}
+		});
+		this.healthSprite = new createjs.SpriteSheet({
+			images: [
+				"/images/health.svg"
+			],
+			frames: {
+				height: 16,
+				width: 16
+			}
+		});
 		this.knightSprite = new createjs.SpriteSheet({
 			images: [
 				"/images/knight-left.svg",
 				"/images/knight-right.svg"
+			],
+			frames: {
+				height: 16,
+				width: 16
+			}
+		});
+		this.treeSprite = new createjs.SpriteSheet({
+			images: [
+				"/images/tree-stump.svg"
 			],
 			frames: {
 				height: 16,
