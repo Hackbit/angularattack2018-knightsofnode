@@ -20,7 +20,7 @@ let NPC_HB_SPAWN_RATE: number = 4000;
 let NPC_HB_RATE: number = 400;
 
 const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
-const NUMBER_OF_OBSTACLES: number = 75;
+const NUMBER_OF_OBSTACLES: number = 100;
 const NPC_COUNT: number = 10;
 
 const NPC_HB_NAME: string = 'npc_heartbeat';
