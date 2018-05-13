@@ -644,7 +644,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
             case 'hard':
                 assignDifficultyParams(25, 10, 2000, 175);
                 break;
-            //default keeps preset values
         }
     }
 }
