@@ -86,12 +86,16 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			}
 		});
 
-		let queue = new createjs.LoadQueue();
-		queue.installPlugin(createjs.SpriteSheet);
-		queue.loadManifest([
-			{id: "knightSprite", type: "spritesheet", src: "/sprites/knight.json"}
-		]);
-		queue.on("complete", () => console.log("good knight"));
+		this.knightSprite = new createjs.SpriteSheet({
+			images: [
+				"/images/knight-left.svg",
+				"/images/knight-right.svg"
+			],
+			frames: {
+				height: 16,
+				width: 16
+			}
+		});
 	}
 
 	down(): void {
