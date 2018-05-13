@@ -16,7 +16,7 @@ const PLAYER_START_Y: number = 208;
 // Difficulty Parameters
 let NPC_MAX_COUNT: number = 45;
 let NPC_ATTACK_POWER: number = 5;
-let NPC_HB_SPAWN_RATE: number = 8000;
+let NPC_HB_SPAWN_RATE: number = 4000;
 let NPC_HB_RATE: number = 400;
 
 const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
@@ -312,6 +312,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             npc.x = xPos;
             npc.y = yPos;
             npc.health = 100;
+            npc.maxHealth = 100;
             npc.actorId = Guid.create();
             npc.attackPower = NPC_ATTACK_POWER;
 			this.npcArray.push(npc);
@@ -593,12 +594,14 @@ export class BoardComponent implements AfterViewInit, OnInit {
             {
                 npc = new actor(this.redDragonSprite);
                 npc.health = 250;       
-                npc.attackPower = NPC_ATTACK_POWER*2;
+                npc.maxHealth = 250;
+                npc.attackPower = NPC_ATTACK_POWER*4;
             }
             else
             {
                 npc = new actor(this.dragonSprite);
                 npc.health = 100;
+                npc.maxHealth = 100;
                 npc.attackPower = NPC_ATTACK_POWER;
             }
 
@@ -667,6 +670,7 @@ class actor extends createjs.Bitmap {
 	currentX: number;
     currentY: number;
     actorId: Guid;
+    maxHealth: number;
 
     getProgressBarColor(): string {
 		if(this.health > 25) {
