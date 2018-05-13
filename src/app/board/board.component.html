@@ -64,9 +64,9 @@
 		</div>
 	</div>
 	<div class="canvas-width row">
-		<button class="btn btn-primary btn-lg">Set Difficulty</button>
+		<button class="btn btn-primary btn-lg" (click)="difficultyCollapse = !difficultyCollapse">Set Difficulty</button>
 	</div>
-	<div>
+	<div [class.collapse]="difficultyCollapse">
 		<form class="form-inline">
 			<div class="form-check-inline">
 				<input id="easy" class="form-control" name="difficulty" type="radio" value="easy"/>&nbsp;

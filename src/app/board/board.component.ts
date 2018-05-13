@@ -47,6 +47,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 	attacker: actor = null;
 	criticalHit: boolean = false;
+	difficultyCollapse: boolean = true;
 	konami: boolean = false;
 	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT + ATTACK;
 	moves: string[] = [];
