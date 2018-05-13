@@ -1,6 +1,13 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 @font-face {
+	font-family: "ArcadeClassic";
+	src: url("../fonts/arcadeclassic.woff"), url("../fonts/arcadeclassic.woff2");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
 	font-family: "Game-Over";
 	src: url("../fonts/gameover.woff"), url("../fonts/gameover.woff2");
 	font-style: normal;
