@@ -97,7 +97,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		});
 
         this.boulderSprite = new Image();
-        this.boulderSprite.src = "/images/knight-left.png";
+        this.boulderSprite.src = "/images/boulder.png";
         this.dragonSprite = new Image();
         this.dragonSprite.src = "/images/dragon-left.png";
         this.healthSprite = new Image();
@@ -244,6 +244,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			obstacle.currentX = xPos;
             obstacle.currentY = yPos;
             obstacle.setBounds(xPos, yPos, 16, 16);
+            obstacle.x = xPos;
+            obstacle.y = yPos;
 			//obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
 			this.obstacleArray.push(obstacle);
 		}
