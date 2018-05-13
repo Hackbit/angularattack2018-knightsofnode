@@ -81,6 +81,13 @@
 	<div [hidden]="player.health > 0">
 		<h1>Game Over</h1>
 		<p>Thank you for playing. Play again?</p>
-		<p><a href="">Yes</a> <a routerLink="/">No</a></p>
+		<div class="row">
+			<div class="col-6">
+				<button class="splash-difficulty-select btn" onclick="window.location.reload()">Yes</button>
+			</div>
+			<div class="col-6">
+				<a class="splash-difficulty-select btn" routerLink="/">No</a>
+			</div>
+		</div>
 	</div>
 </ng-template>

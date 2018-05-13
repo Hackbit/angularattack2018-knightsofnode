@@ -38,7 +38,8 @@ kbd {
 .splash-difficulty-select {
 	background-color: #ce3d49;
 	color: #ffffff;
-	margin: 8px;
+	display: flow-root;
+	margin: 0.5em;
 }
 .splash-difficulty-select:hover {
 	background-color: #a53039;
