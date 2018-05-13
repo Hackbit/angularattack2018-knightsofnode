@@ -32,14 +32,14 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	player: actor;
 	npcArray: Array<actor> = [];
 	obstacleArray: Array<actor> = [];
-	boulderSprite: createjs.SpriteSheet = null;
-	dragonSprite: createjs.SpriteSheet = null;
-	healthSprite: createjs.SpriteSheet = null;
-	knightSprite: createjs.SpriteSheet = null;
-	treeSprite: createjs.SpriteSheet = null;
+	boulderSprite: HTMLImageElement;
+	dragonSprite: HTMLImageElement;
+	healthSprite: HTMLImageElement;
+	knightSprite: HTMLImageElement;
+    treeSprite: HTMLImageElement;
 
 	ngAfterViewInit() {
-		this.player = new actor();
+		this.player = new actor(this.knightSprite);
 		this.gameBoard = new createjs.Stage("gameBoard");
 		let background = new createjs.Shape();
 		background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
@@ -48,25 +48,24 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		this.buildObstacleArray();
 		this.obstacleArray.forEach((obstacle) => {
 			this.gameBoard.addChild(obstacle);
-		});
-
+        });
+        
 		this.initializeNpcArray();
 		this.npcArray.forEach((npc) => {
 			this.gameBoard.addChild(npc);
 		});
 		console.log(this.npcArray);
-
-		this.player.graphics.beginFill("DeepSkyBlue").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 16)
-			.beginFill("black").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 2);
-		this.player.x = PLAYER_START_X;
+        
+        this.player.setBounds(PLAYER_START_X, PLAYER_START_Y, 16, 16);
+		//this.player.x = PLAYER_START_X;
 		this.player.currentX = PLAYER_START_X;
-		this.player.y = PLAYER_START_Y;
+		//this.player.y = PLAYER_START_Y;
 		this.player.currentY = PLAYER_START_Y;
 		this.player.attackPower = 10;
 		this.player.health = 100;
         this.player.actorId = Guid.create();
 		this.gameBoard.addChild(this.player);
-		this.gameBoard.update();
+        this.gameBoard.update();
 	}
 
 	ngOnInit(): void {
@@ -97,54 +96,16 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			}
 		});
 
-		this.boulderSprite = new createjs.SpriteSheet({
-			images: [
-				"/images/boulder.svg"
-			],
-			frames: {
-				height: 16,
-				width: 16
-			}
-		});
-		this.dragonSprite = new createjs.SpriteSheet({
-			images: [
-				"/images/dragon-left.svg",
-				"/images/dragon-right.svg"
-			],
-			frames: {
-				height: 16,
-                width: 16,
-                
-			}
-		});
-		this.healthSprite = new createjs.SpriteSheet({
-			images: [
-				"/images/health.svg"
-			],
-			frames: {
-				height: 16,
-				width: 16
-			}
-		});
-		this.knightSprite = new createjs.SpriteSheet({
-			images: [
-				"/images/knight-left.svg",
-				"/images/knight-right.svg"
-			],
-			frames: {
-				height: 16,
-				width: 16
-            }            
-		});
-		this.treeSprite = new createjs.SpriteSheet({
-			images: [
-				"/images/tree-stump.svg"
-			],
-			frames: {
-				height: 16,
-				width: 16
-			}
-		});
+        this.boulderSprite = new Image();
+        this.boulderSprite.src = "/images/knight-left.png";
+        this.dragonSprite = new Image();
+        this.dragonSprite.src = "/images/dragon-left.png";
+        this.healthSprite = new Image();
+		this.healthSprite.src = "/images/ethereum.png";
+        this.knightSprite = new Image();
+        this.knightSprite.src = "/images/knight-left.png";
+        this.treeSprite = new Image();
+        this.treeSprite.src = "/images/tree-stump.png";
 	}
 
 	down(): void {
@@ -228,7 +189,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		//five for now; need to scale to difficulty later
 		let isLegal: boolean;
 		for(let i = 0; i < NPC_COUNT; i++) {
-			let npc = new actor();
+            let npc = new actor(this.dragonSprite);
 			let side = selectSide();
 			isLegal = false;
 			switch(side) {
@@ -260,10 +221,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 					console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
 			}
 			npc.currentX = xPos;
-			npc.currentY = yPos;
+            npc.currentY = yPos;
+            npc.setBounds(xPos, yPos, 16, 16);
+            npc.x = xPos;
+            npc.y = yPos;
             npc.health = 100;
             npc.actorId = Guid.create();
-			npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
+			//npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
 			this.npcArray.push(npc);
 		}
 	}
@@ -274,12 +238,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
 		let obstacleArray = Array<actor>();
 		for(let i = 0; i < 75; i++) {
-			let obstacle = new actor();
+			let obstacle = new actor(this.boulderSprite);
 			xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
 			yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
 			obstacle.currentX = xPos;
-			obstacle.currentY = yPos;
-			obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
+            obstacle.currentY = yPos;
+            obstacle.setBounds(xPos, yPos, 16, 16);
+			//obstacle.graphics.beginFill("Crimson").drawRect(xPos, yPos, 16, 16);
 			this.obstacleArray.push(obstacle);
 		}
 	}
@@ -419,7 +384,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 }
 
-class actor extends createjs.Shape {
+class actor extends createjs.Bitmap {
 	health: number;
 	attackPower: number;
 	previousDirection: number;
