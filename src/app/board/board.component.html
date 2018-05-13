@@ -67,16 +67,17 @@
 		<button class="btn btn-primary btn-lg" (click)="difficultyCollapse = !difficultyCollapse">Set Difficulty</button>
 	</div>
 	<div [class.collapse]="difficultyCollapse">
-		<form class="form-inline">
+		<form name="difficultyForm" class="form-inline" [formGroup]="difficultyForm" (submit)="setDifficultyLevel(difficultyForm.value.difficulty)">
 			<div class="form-check-inline">
-				<input id="easy" class="form-control" name="difficulty" type="radio" value="easy"/>&nbsp;
+				<input id="easy" class="form-control" name="difficulty" type="radio" value="easy" formControlName="difficulty" />&nbsp;
 				<label for="easy"><i class="fab fa-js"></i>&nbsp; Easy</label>&nbsp;
-				<input id="normal" class="form-control" name="difficulty" type="radio" value="normal"/>&nbsp;
+				<input id="normal" class="form-control" name="difficulty" type="radio" value="normal" formControlName="difficulty" />&nbsp;
 				<label for="normal"><i class="fab fa-angular"></i>&nbsp; Normal</label>&nbsp;
-				<input id="hard" class="form-control" name="difficulty" type="radio" value="hard"/>&nbsp;
+				<input id="hard" class="form-control" name="difficulty" type="radio" value="hard" formControlName="difficulty" />&nbsp;
 				<label for="hard"><i class="fab fa-react"></i>&nbsp; Hard</label>
 			</div>
 			<button class="btn btn-primary" type="submit">Make it So</button>
 		</form>
+		<pre>{{ difficultyForm.value | json }}</pre>
 	</div>
 </ng-template>

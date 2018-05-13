@@ -1,4 +1,5 @@
 import {Component, HostListener, AfterViewInit, OnInit} from "@angular/core";
+import {FormControl, FormGroup} from "@angular/forms";
 import * as createjs from 'createjs-module';
 import {WindowSizeService} from "../shared/services/window.size.service";
 import {PlayerControlService, ATTACK} from "../shared/services/player.control.service";
@@ -48,6 +49,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	attacker: actor = null;
 	criticalHit: boolean = false;
 	difficultyCollapse: boolean = true;
+	difficultyForm = new FormGroup({difficulty: new FormControl()});
 	konami: boolean = false;
 	konamiCode: string = UP + UP + DOWN + DOWN + LEFT + RIGHT + LEFT + RIGHT + ATTACK;
 	moves: string[] = [];
