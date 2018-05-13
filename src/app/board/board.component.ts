@@ -67,12 +67,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.gameBoard = new createjs.Stage("gameBoard");
         
         //these two lines are for plain green background
-        let background = new createjs.Shape();
-        background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
+        //let background = new createjs.Shape();
+        //background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
 
         //these two lines are for textured background
-        //let background = new createjs.Bitmap(this.backgroundSprite);
-        //background.setBounds(0, 0, 768, 432);
+        let background = new createjs.Bitmap(this.backgroundSprite);
+        background.setBounds(0, 0, 768, 432);
         
         this.gameBoard.addChild(background);
         this.buildObstacleArray();
