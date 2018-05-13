@@ -29,6 +29,7 @@ const HEALTH_DROP_HB_RATE: number = 100;
 
 export class BoardComponent implements AfterViewInit, OnInit {
 
+	criticalHit: boolean = false;
 	gameBoard: createjs.Stage;
 	player: actor;
 	npcArray: Array<actor> = [];
@@ -325,6 +326,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
             if(this.isCriticalHit())
             {
                 attackOutcome.victim.health -= this.player.attackPower*2;
+                this.criticalHit = true;
+                window.setTimeout(gameBoard => gameBoard.criticalHit = false, 1000, this);
                 console.log('Critical Hit!');
             }
             else

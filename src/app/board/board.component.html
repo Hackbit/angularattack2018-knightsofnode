@@ -6,3 +6,8 @@
 <div class="row">
 	<canvas width="768" height="432" id="gameBoard"></canvas>
 </div>
+<div class="row">
+	<div *ngIf="criticalHit" class="alert alert-danger" role="alert">
+		<strong>Critical Hit</strong>
+	</div>
+</div>
