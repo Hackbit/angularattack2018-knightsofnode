@@ -14,7 +14,7 @@ export class SplashComponent {
 	moves: string[] = [];
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
-		this.heartbeatService.heartbeat.subscribe(this.beat);
+		this.heartbeatService.getEmitter("outtatime").subscribe(this.beat);
 		this.playerControlService.playerAction.subscribe((direction: string) => {
 			this.moves = this.moves.slice(-15);
 			this.moves.push(direction);
