@@ -521,8 +521,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
     }
 
     handleHealthDrop() {
-        let xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
-        let yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+        let xPos: number;
+        let yPos: number;
+        do {
+            xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+            yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+        } while (this.isMoveLegal(xPos, yPos) === false)
+
         this.healthDrop.currentX = xPos;
         this.healthDrop.currentY = yPos;
         this.healthDrop.setBounds(xPos, yPos, 16, 16);
