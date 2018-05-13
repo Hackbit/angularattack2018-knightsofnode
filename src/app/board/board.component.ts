@@ -4,6 +4,7 @@ import {WindowSizeService} from "../shared/services/window.size.service";
 import {PlayerControlService, ATTACK} from "../shared/services/player.control.service";
 import {LEFT, RIGHT, UP, DOWN} from "../shared/services/player.control.service";
 import {HeartbeatService} from "../shared/services/heartbeat.service";
+import {Guid} from 'guid-typescript';
 
 const BOARD_MAX_X: number = 768;
 const BOARD_MAX_Y: number = 432;
@@ -12,6 +13,10 @@ const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 0;
 const PLAYER_START_Y: number = 0;
 const NPC_COUNT: number = 25;
+
+const NPC_HB_NAME: string = 'npc_heartbeat';
+const PLAYER_HB_NAME: string = 'player_heartbeat';
+const HEALTH_DROP_HB_NAME: string = 'health_drop_heartbeat';
 
 @Component({
 	template: require("./board.component.html")
@@ -55,14 +60,16 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		this.player.currentY = PLAYER_START_Y;
 		this.player.attackPower = 10;
 		this.player.health = 100;
-
+        this.player.actorId = Guid.create();
 		this.gameBoard.addChild(this.player);
 		this.gameBoard.update();
 	}
 
 	ngOnInit(): void {
-		this.heartbeatService.getEmitter("outtatime").subscribe(heartbeatName =>
-			this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
+		this.heartbeatService.start(NPC_HB_NAME);
+            
+        this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
+        this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 	}
 
 	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
@@ -102,12 +109,13 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			],
 			frames: {
 				height: 16,
-				width: 16
+                width: 16,
+                
 			}
 		});
 		this.healthSprite = new createjs.SpriteSheet({
 			images: [
-				"/images/ethereum.svg"
+				"/images/health.svg"
 			],
 			frames: {
 				height: 16,
@@ -122,7 +130,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			frames: {
 				height: 16,
 				width: 16
-			}
+            }            
 		});
 		this.treeSprite = new createjs.SpriteSheet({
 			images: [
@@ -249,7 +257,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			}
 			npc.currentX = xPos;
 			npc.currentY = yPos;
-			npc.health = 100;
+            npc.health = 100;
+            npc.actorId = Guid.create();
 			npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
 			this.npcArray.push(npc);
 		}
@@ -272,7 +281,8 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	isMoveLegal(xPos, yPos): boolean {
-		let value: boolean = true;
+        let value: boolean = true;
+                
 		this.obstacleArray.forEach((obstacle) => {
 			if(obstacle.currentX === xPos && obstacle.currentY === yPos) {
 				value = false;
@@ -282,7 +292,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		if(this.npcArray && this.npcArray.length > 0) {
 			this.npcArray.forEach((npc) => {
 				if(npc.currentX === xPos && npc.currentY === yPos) {
-					value = false;
+                    value = false;
+                    
+                    if(this.wasDamageDone(false))
+                    {
+                        this.player.health -= npc.attackPower;
+                    }
 				}
 			});
 		}
@@ -325,7 +340,15 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
             if(attackOutcome.victim.health <= 0)
             {
-                
+                this.heartbeatService.stop(NPC_HB_NAME);
+                this.npcArray = this.npcArray.filter(actor => actor.actorId !== attackOutcome.victim.actorId);
+                this.gameBoard.removeChild(this.npcArray.find(actor => actor.actorId !== attackOutcome.victim.actorId));
+               
+                this.heartbeatService.start(NPC_HB_NAME);
+                this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
+                this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
+
+                this.gameBoard.update();
             }
 
             console.log('NPC Health: ' + attackOutcome.victim.health);
@@ -399,7 +422,7 @@ class actor extends createjs.Shape {
 	currentFacingDirection: number;
 	currentX: number;
     currentY: number;
-    id: number;
+    actorId: Guid;
 }
 
 
