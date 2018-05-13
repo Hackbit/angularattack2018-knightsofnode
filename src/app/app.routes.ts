@@ -12,7 +12,8 @@ import {TeamComponent} from "./team/team.component";
 export const allAppComponents = [BoardComponent, RulesComponent, SplashComponent, TeamComponent];
 
 export const routes: Routes = [
-	{path: "board", component: BoardComponent},
+	{path: "board", redirectTo: "board/normal"},
+	{path: "board/:difficulty", component: BoardComponent},
 	{path: "rules", component: RulesComponent},
 	{path: "team", component: TeamComponent},
 	{path: "", component: SplashComponent}

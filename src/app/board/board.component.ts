@@ -6,6 +6,7 @@ import {PlayerControlService, ATTACK} from "../shared/services/player.control.se
 import {LEFT, RIGHT, UP, DOWN} from "../shared/services/player.control.service";
 import {HeartbeatService} from "../shared/services/heartbeat.service";
 import {Guid} from 'guid-typescript';
+import {ActivatedRoute} from "@angular/router";
 
 const BOARD_MAX_X: number = 768;
 const BOARD_MAX_Y: number = 432;
@@ -106,6 +107,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
     }
 
 	ngOnInit(): void {
+		let allowedDifficulties = ["easy", "normal", "hard"];
+		let difficutly = this.route.snapshot.params.difficutly;
+		if(allowedDifficulties.findIndex(value => value === difficutly) >= 0) {
+			this.setDifficultyLevel(difficutly);
+		}
+
 		this.heartbeatService.start(NPC_HB_NAME, NPC_HB_RATE);
             
         this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
@@ -122,7 +129,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.handleHealthDrop());
     }
 
-	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService) {
+	constructor(protected heartbeatService: HeartbeatService, protected playerControlService: PlayerControlService, protected windowSizeService: WindowSizeService, protected route: ActivatedRoute) {
 		this.playerControlService.playerAction.subscribe((direction: string) => {
 			this.moves = this.moves.slice(-15);
 			this.moves.push(direction);
