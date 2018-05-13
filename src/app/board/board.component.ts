@@ -29,6 +29,7 @@ const HEALTH_DROP_HB_RATE: number = 100;
 
 export class BoardComponent implements AfterViewInit, OnInit {
 
+	criticalHit: boolean = false;
 	gameBoard: createjs.Stage;
 	player: actor;
     npcArray: Array<actor> = [];
@@ -64,7 +65,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.player.health = 100;
         this.player.actorId = Guid.create();
         this.gameBoard.addChild(this.player);
-        this.player.stageChildIndex = this.gameBoard.children.length-1;
         this.healthDrop = new actor(this.healthSprite);
         this.healthDrop.actorId = Guid.create();
         this.handleHealthDrop();
