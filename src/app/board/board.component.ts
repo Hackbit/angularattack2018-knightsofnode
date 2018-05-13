@@ -545,29 +545,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     detectNpcProximity(xPos, yPos)
     {
         var result = new attackResult();
@@ -662,10 +639,10 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 assignDifficultyParams(10, 5, 8000, 400);
                 break;
             case 'normal':
-                assignDifficultyParams(15, 10, 5000, 250);
+                assignDifficultyParams(15, 8, 5000, 250);
                 break;
             case 'hard':
-                assignDifficultyParams(25, 15, 2000, 175);
+                assignDifficultyParams(25, 10, 2000, 175);
                 break;
             //default keeps preset values
         }
@@ -709,26 +686,6 @@ class attackResult {
 	hit: boolean;
     victim: actor;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function GetNpcDirection(previousDir: number): number {
 	let dirMin: number = 0;
