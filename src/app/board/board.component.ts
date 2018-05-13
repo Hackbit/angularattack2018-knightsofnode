@@ -12,8 +12,13 @@ const X_GRID_POSITIONS: number = (BOARD_MAX_X / 16);
 const Y_GRID_POSITIONS: number = (BOARD_MAX_Y / 16);
 const PLAYER_START_X: number = 0;
 const PLAYER_START_Y: number = 0;
+
+const NPC_MAX_COUNT: number = 10;
 const NPC_COUNT: number = 10;
 const NPC_ATTACK_POWER: number = 2.5;
+
+const NPC_HB_SPAWN_NAME: string = "npc_hb_spawn";
+const NPC_HB_SPAWN_RATE: number = 5000;
 
 const NPC_HB_NAME: string = 'npc_heartbeat';
 const PLAYER_HB_NAME: string = 'player_heartbeat';
@@ -79,8 +84,12 @@ export class BoardComponent implements AfterViewInit, OnInit {
         this.heartbeatService.getEmitter(NPC_HB_NAME).subscribe(() =>
         this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 
+        this.heartbeatService.start(NPC_HB_SPAWN_NAME, NPC_HB_SPAWN_RATE);
+        this.heartbeatService.getEmitter(NPC_HB_SPAWN_NAME).subscribe(() => this.spawnNPC())
+
         this.heartbeatService.start(PLAYER_HB_NAME, PLAYER_HB_RATE);
-        this.heartbeatService.getEmitter(PLAYER_HB_NAME).subscribe(this.isPlayerAlive)
+        this.heartbeatService.getEmitter(PLAYER_HB_NAME).subscribe(() => this.isPlayerAlive())
+        
         this.heartbeatService.start(HEALTH_DROP_HB_NAME, HEALTH_DROP_HB_RATE);
         this.heartbeatService.getEmitter(HEALTH_DROP_HB_NAME).subscribe(() => 
         this.handleHealthDrop());
@@ -429,9 +438,9 @@ export class BoardComponent implements AfterViewInit, OnInit {
 		return result;
     }
     
-    isPlayerAlive(player: actor)
+    isPlayerAlive()
     {
-        if(player.health === 0 )
+        if(this.player.health === 0 )
         {
             this.gameOver();
         }
@@ -461,6 +470,93 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.player.health = 100;
             }
             this.handleHealthDrop();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    spawnNPC()
+    {
+        let dirMin: number = 0;
+        let dirMax: number = 4;
+    
+        var randNum = Math.floor(Math.random() * (dirMax - dirMin)) + dirMin;
+
+        if(this.npcArray.length<NPC_MAX_COUNT && (randNum === 2 || randNum === 3))
+        {
+            let xPos: number;
+            let yPos: number;
+            let isLegal: boolean;
+            let npc = new actor(this.dragonSprite);
+            let side = selectSide();
+            isLegal = false;
+            switch(side) {
+                case 0:
+                    do {
+                        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                        yPos = 0;
+                    } while(this.isMoveLegal(xPos, yPos) == false);
+                    break;
+                case 1:
+                    do {
+                        xPos = 0;
+                        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                    } while(this.isMoveLegal(xPos, yPos) == false);
+                    break;
+                case 2:
+                    do {
+                        xPos = Math.floor(Math.random() * X_GRID_POSITIONS) * 16;
+                        yPos = BOARD_MAX_Y - 16;
+                    } while(this.isMoveLegal(xPos, yPos) == false);
+                    break;
+                case 3:
+                    do {
+                        xPos = BOARD_MAX_X - 16;
+                        yPos = Math.floor(Math.random() * Y_GRID_POSITIONS) * 16;
+                    } while(this.isMoveLegal(xPos, yPos) == false);
+                    break;
+                default:
+                    console.log("Well, you found a bug. Here's a kitty: =^-.-^=");
+            }
+            npc.currentX = xPos;
+            npc.currentY = yPos;
+            npc.setBounds(xPos, yPos, 16, 16);
+            npc.x = xPos;
+            npc.y = yPos;
+            npc.health = 100;
+            npc.actorId = Guid.create();
+            npc.attackPower = NPC_ATTACK_POWER;
+            this.npcArray.push(npc);
+            this.gameBoard.addChild(npc);
         }
     }
 }
