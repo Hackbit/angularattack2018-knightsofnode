@@ -65,6 +65,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
     shrubSprite: HTMLImageElement;
     backgroundSprite: HTMLImageElement;
     score: number = 0;
+    killCount: number = 0;
 
 	ngAfterViewInit() {
         this.gameBoard = new createjs.Stage("gameBoard");
@@ -442,6 +443,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 
                 this.gameBoard.update();
                 this.score += SCORE_KILL_MULTIPLIER*attackOutcome.victim.maxHealth;
+                this.killCount++;
             }
 		}
 		this.attacker = attackOutcome.victim;
