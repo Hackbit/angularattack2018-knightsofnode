@@ -31,13 +31,12 @@ const HEALTH_DROP_HB_NAME: string = 'health_drop_heartbeat';
 
 const PLAYER_HB_RATE: number = 100;
 const HEALTH_DROP_HB_RATE: number = 10000;
-
 const HEALTH_DROP_VALUE: number = 10;
 
 const NPC_HEALTH_DISPLAY = 5000;
 const SCORE_HIT = 100;
 const SCORE_CRIT = 250;
-const SCORE_KILL = 1000;
+const SCORE_KILL_MULTIPLIER = 10;
 const SCORE_HEALTH = 500;
 
 @Component({
@@ -435,7 +434,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
                 this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 
                 this.gameBoard.update();
-                this.score += SCORE_KILL;
+                this.score += SCORE_KILL_MULTIPLIER*attackOutcome.victim.maxHealth;
             }
 		}
 		this.attacker = attackOutcome.victim;
@@ -470,7 +469,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
         {
             return true;
         }
-        else if(!isPlayerAttacking &&  (pdirection >=0 && pdirection <= 60))
+        else if(!isPlayerAttacking)
         {
             return true;
         }
