@@ -138,7 +138,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.currentFacingDirection = 2;
 			this.player.y += 16;
             this.player.currentY += 16;
-            this.checkHealthPickup(this.player.currentX, this.player.currentY + 16);
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
@@ -153,7 +153,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.x -= 16;
             this.player.currentX -= 16;
             this.player.scaleX = -1;
-            this.checkHealthPickup(this.player.currentX - 16, this.player.currentY);
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
@@ -167,7 +167,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.x += 16;
             this.player.currentX += 16;
             this.player.scaleX = 1;
-            this.checkHealthPickup(this.player.currentX + 16, this.player.currentY);
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
@@ -178,7 +178,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 			this.player.currentFacingDirection = 0;
 			this.player.y -= 16;
             this.player.currentY -= 16;
-            this.checkHealthPickup(this.player.currentX, this.player.currentY - 16);
+            this.checkHealthPickup(this.player.currentX, this.player.currentY);
 			this.gameBoard.update();
 		}
 	}
