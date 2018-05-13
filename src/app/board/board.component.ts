@@ -61,7 +61,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
 	}
 
 	ngOnInit(): void {
-		this.heartbeatService.heartbeat.subscribe(() =>
+		this.heartbeatService.getEmitter("outtatime").subscribe(heartbeatName =>
 			this.npcArray.forEach(npc => this.HandleNpcMovement(npc)));
 	}
 

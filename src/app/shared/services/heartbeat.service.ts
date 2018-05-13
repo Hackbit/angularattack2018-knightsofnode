@@ -3,11 +3,16 @@ import {EventEmitter, Injectable} from "@angular/core";
 @Injectable()
 export class HeartbeatService {
 	heartbeats: any[] = [];
-	heartbeat: EventEmitter<any> = new EventEmitter<any>();
+
+	getEmitter(name: string): EventEmitter<string> {
+		let heartbeat = this.heartbeats.find(heart => heart.name === name);
+		return(heartbeat.emitter);
+	}
 
 	start(name: string): void {
-		let heartbeatId = window.setInterval(() => this.heartbeat.emit(name));
-		this.heartbeats.push({id: heartbeatId, name: name});
+		let heartbeatEmitter = new EventEmitter<string>();
+		let heartbeatId = window.setInterval(() => heartbeatEmitter.emit(name));
+		this.heartbeats.push({id: heartbeatId, name: name, emitter: heartbeatEmitter});
 	}
 
 	stop(name: string): void {
