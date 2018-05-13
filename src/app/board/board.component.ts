@@ -40,56 +40,33 @@ export class BoardComponent implements AfterViewInit, OnInit {
     treeSprite: HTMLImageElement;
 
 	ngAfterViewInit() {
-<<<<<<< Updated upstream
-		this.player = new actor(this.knightSprite);
-=======
-        this.player = new actor();
-        this.player.graphics.beginFill("DeepSkyBlue").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 16)
-        .beginFill("black").drawRect(PLAYER_START_X, PLAYER_START_Y, 16, 2);
-        this.player.x = PLAYER_START_X;
+        this.player = new actor(this.knightSprite);
+        this.gameBoard = new createjs.Stage("gameBoard");
+        let background = new createjs.Shape();
+        background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
+        this.gameBoard.addChild(background);
+        this.buildObstacleArray();
+        this.obstacleArray.forEach((obstacle) => {
+            this.gameBoard.addChild(obstacle);
+        });
+        
+        this.initializeNpcArray();
+        this.npcArray.forEach((npc) => {
+            this.gameBoard.addChild(npc);
+        });
+        console.log(this.npcArray);
+        
+        this.player.setBounds(PLAYER_START_X, PLAYER_START_Y, 16, 16);
+        //this.player.x = PLAYER_START_X;
         this.player.currentX = PLAYER_START_X;
-        this.player.y = PLAYER_START_Y;
+        //this.player.y = PLAYER_START_Y;
         this.player.currentY = PLAYER_START_Y;
         this.player.attackPower = 10;
         this.player.health = 100;
         this.player.actorId = Guid.create();
-        this.heartbeatService.start(PLAYER_HB_NAME, PLAYER_HB_RATE);
-        this.heartbeatService.getEmitter(PLAYER_HB_NAME).subscribe();
         this.gameBoard.addChild(this.player);
-
->>>>>>> Stashed changes
-		this.gameBoard = new createjs.Stage("gameBoard");
-		let background = new createjs.Shape();
-		background.graphics.beginFill("green").drawRect(0, 0, 768, 432);
-		this.gameBoard.addChild(background);
-
-		this.buildObstacleArray();
-		this.obstacleArray.forEach((obstacle) => {
-			this.gameBoard.addChild(obstacle);
-        });
-        
-		this.initializeNpcArray();
-		this.npcArray.forEach((npc) => {
-			this.gameBoard.addChild(npc);
-		});
-<<<<<<< Updated upstream
-		console.log(this.npcArray);
-        
-        this.player.setBounds(PLAYER_START_X, PLAYER_START_Y, 16, 16);
-		//this.player.x = PLAYER_START_X;
-		this.player.currentX = PLAYER_START_X;
-		//this.player.y = PLAYER_START_Y;
-		this.player.currentY = PLAYER_START_Y;
-		this.player.attackPower = 10;
-		this.player.health = 100;
-        this.player.actorId = Guid.create();
-		this.gameBoard.addChild(this.player);
         this.gameBoard.update();
-=======
-
-		this.gameBoard.update();
->>>>>>> Stashed changes
-	}
+    }
 
 	ngOnInit(): void {
 		this.heartbeatService.start(NPC_HB_NAME, NPC_HB_RATE);
@@ -252,12 +229,7 @@ export class BoardComponent implements AfterViewInit, OnInit {
             npc.y = yPos;
             npc.health = 100;
             npc.actorId = Guid.create();
-<<<<<<< Updated upstream
-			//npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
-=======
             npc.attackPower = NPC_ATTACK_POWER;
-			npc.graphics.beginFill("Black").drawRect(xPos, yPos, 16, 16);
->>>>>>> Stashed changes
 			this.npcArray.push(npc);
 		}
 	}
