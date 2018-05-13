@@ -67,7 +67,6 @@ export class BoardComponent implements AfterViewInit, OnInit {
     score: number = 0;
 
 	ngAfterViewInit() {
-        this.player = new actor(this.knightSprite);
         this.gameBoard = new createjs.Stage("gameBoard");
         
         //these two lines are for plain green background
