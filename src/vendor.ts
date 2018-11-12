@@ -11,9 +11,3 @@ import "rxjs";
 // Other vendors for example Lodash or Bootstrap
 // You can import js, ts, css, sass, ...
 import "createjs-module";
-
-// font awesome
-import "@fortawesome/fontawesome";
-import "@fortawesome/fontawesome-free-brands";
-import "@fortawesome/fontawesome-free-regular";
-import "@fortawesome/fontawesome-free-solid";
