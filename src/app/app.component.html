@@ -6,27 +6,27 @@
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 				  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
 				  (click)="navCollapse = !navCollapse">
-			<i class="fas fa-bars"></i>
+			<fa-icon [icon]="faBars"></fa-icon>
 		</button>
 
 		<div class="navbar-collapse" [class.collapse]="navCollapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" routerLink=""><i class="fas fa-home"></i> Home</a>
+					<a class="nav-link" routerLink=""><fa-icon [icon]="faHome"></fa-icon> Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" routerLink="board"><i class="fas fa-user-shield"></i> Play!</a>
+					<a class="nav-link" routerLink="board"><fa-icon [icon]="faUserShield"></fa-icon> Play!</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" routerLink="rules"><i class="fas fa-clipboard-list"></i> Rules</a>
+					<a class="nav-link" routerLink="rules"><fa-icon [icon]="faClipboardList"></fa-icon> Rules</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" routerLink="team"><i class="fas fa-users"></i> Team</a>
+					<a class="nav-link" routerLink="team"><fa-icon [icon]="faUsers"></fa-icon> Team</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" href="https://www.angularattack.com/entries/27-angular-abq/vote"><i class="fas fa-check"></i> Vote for Us</a>
+					<a class="nav-link" href="https://www.angularattack.com/entries/27-angular-abq/vote"><fa-icon [icon]="faCheck"></fa-icon> Vote for Us</a>
 				</li>
 			</ul>
 		</div>

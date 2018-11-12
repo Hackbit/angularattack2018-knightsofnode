@@ -2,6 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit} from "@angular/core";
 import {WindowSizeService} from "./shared/services/window.size.service";
 import {PlayerControlService} from "./shared/services/player.control.service";
 import {HeartbeatService} from "./shared/services/heartbeat.service";
+import {faBars, faCheck, faClipboardList, faHome, faUsers, faUserShield} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
 	selector: "knights-of-node",
@@ -9,6 +10,13 @@ import {HeartbeatService} from "./shared/services/heartbeat.service";
 })
 
 export class AppComponent implements OnInit, OnDestroy {
+	faBars = faBars;
+	faCheck = faCheck;
+	faClipboardList = faClipboardList;
+	faHome = faHome;
+	faUsers = faUsers;
+	faUserShield = faUserShield;
+
 	heartbeatName: string = "outtatime";
 	navCollapse: boolean = true;
 
