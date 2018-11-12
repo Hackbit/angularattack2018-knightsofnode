@@ -6,6 +6,7 @@ import {PlayerControlService, ATTACK} from "../shared/services/player.control.se
 import {LEFT, RIGHT, UP, DOWN} from "../shared/services/player.control.service";
 import {HeartbeatService} from "../shared/services/heartbeat.service";
 import {Guid} from 'guid-typescript';
+import {faAngular, faJs, faReact} from "@fortawesome/free-brands-svg-icons";
 
 const BOARD_MAX_X: number = 768;
 const BOARD_MAX_Y: number = 432;
@@ -44,6 +45,9 @@ const SCORE_HEALTH = 500;
 })
 
 export class BoardComponent implements AfterViewInit, OnInit {
+	faAngular = faAngular;
+	faJs = faJs;
+	faReact = faReact;
 
 	attacker: actor = null;
 	criticalHit: boolean = false;
